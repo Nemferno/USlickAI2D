@@ -1,0 +1,4 @@
+This is a UI Slick2D Library for those who want a quick and easy way to make UIs without the need for xml files.
+All you need to do is have the images ready and code the UI!
+You can customize and create your own UI using the code provided with this library.
+If you have any problems or ideas, please email me at jasperbae@gmail.com
