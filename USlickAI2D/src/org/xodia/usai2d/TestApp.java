@@ -54,6 +54,7 @@ public class TestApp extends BasicUIGame{
 		list.addItem("HI");
 		list.addItem("HI");
 		addUI(list);
+		//list.setValue(0.75f);
 		
 		//SelectionList list = new SelectionList(300, 0, 125, 50, 10, new OnChangedListener() {
 		//	public void changedSelection(String newSelection) {
