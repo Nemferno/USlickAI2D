@@ -1,6 +1,7 @@
 package org.xodia.usai2d;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
@@ -34,12 +35,12 @@ public class Dialog extends BasicUserInterface {
 	private Rectangle draggableBounds;
 	private Rectangle draggedBounds;
 	
-	public Dialog(float w, float h){
-		this(w, h, true, false);
+	public Dialog(GameContainer gc, float w, float h){
+		this(gc, w, h, true, false);
 	}
 	
-	public Dialog(float w, float h, boolean isModal, boolean isDraggable){
-		super(w, h);
+	public Dialog(GameContainer gc, float w, float h, boolean isModal, boolean isDraggable){
+		super(gc, w, h);
 		
 		this.isDraggable = isDraggable;
 		this.isModal = isModal;

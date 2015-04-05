@@ -1,5 +1,6 @@
 package org.xodia.usai2d;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 /**
@@ -15,12 +16,12 @@ public class TextArea extends BasicUserInterface{
 	private Panel p;
 	private EditField field;
 	
-	public TextArea(float width, float height){
-		super(width, height);
+	public TextArea(GameContainer gc, float width, float height){
+		super(gc, width, height);
 		
-		c = new Container(0, 0, width, height);
-		p = new Panel(width, height);
-		field = new EditField(0, 0, width, height){
+		c = new Container(gc, 0, 0, width, height);
+		p = new Panel(gc, width, height);
+		field = new EditField(gc, 0, 0, width, height){
 			public void render(Graphics g) {
 				super.render(g);
 

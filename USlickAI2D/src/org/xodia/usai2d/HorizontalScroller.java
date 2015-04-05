@@ -1,15 +1,17 @@
 package org.xodia.usai2d;
 
+import org.newdawn.slick.GameContainer;
+
 public class HorizontalScroller extends BasicUserInterface implements IScroller{
 
 	private Handle h;
 	private float contentWidth;
 	private boolean canDrag;
 	
-	public HorizontalScroller(float w, float h) {
-		super(w, h);
+	public HorizontalScroller(GameContainer gc, float w, float h) {
+		super(gc, w, h);
 		
-		this.h = new Handle(w, h);
+		this.h = new Handle(gc, w, h);
 		addChild(this.h);
 	}
 	

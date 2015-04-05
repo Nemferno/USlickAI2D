@@ -1,22 +1,23 @@
 package org.xodia.usai2d;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 public class ToggleButton extends Button {
 
 	private boolean isToggled;
 	
-	public ToggleButton(float x, float y, float w, float h) {
-		super(x, y, w, h);
+	public ToggleButton(GameContainer gc, float x, float y, float w, float h) {
+		super(gc, x, y, w, h);
 	}
 	
-	public ToggleButton(String text, float x, float y, float w, float h){
-		super(text, x, y, w, h);
+	public ToggleButton(GameContainer gc, String text, float x, float y, float w, float h){
+		super(gc, text, x, y, w, h);
 	}
 	
-	public ToggleButton(String text, float x, float y, float w, float h, OnClickListener listener){
-		super(text, x, y, w, h, listener);
+	public ToggleButton(GameContainer gc, String text, float x, float y, float w, float h, OnClickListener listener){
+		super(gc, text, x, y, w, h, listener);
 	}
 	
 	public void render(Graphics g) {

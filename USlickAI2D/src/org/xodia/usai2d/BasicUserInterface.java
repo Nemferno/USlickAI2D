@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.xodia.usai2d.layout.BorderLayout;
 import org.xodia.usai2d.layout.BorderLayout.Direction;
@@ -12,6 +13,7 @@ import org.xodia.usai2d.layout.ILayout;
 public class BasicUserInterface implements IUserInterface {
 
 	protected List<IUserInterface> children;
+	protected GameContainer container;
 	private IUserInterface parent;
 	private ILayout layout;
 	private float x, y;
@@ -20,11 +22,12 @@ public class BasicUserInterface implements IUserInterface {
 	private boolean isDisabled;
 	private boolean isVisible;
 	
-	public BasicUserInterface(float w, float h){
-		this(0, 0, w, h);
+	public BasicUserInterface(GameContainer gc, float w, float h){
+		this(gc, 0, 0, w, h);
 	}
 	
-	public BasicUserInterface(float x, float y, float w, float h){
+	public BasicUserInterface(GameContainer gc, float x, float y, float w, float h){
+		container = gc;
 		children = new CopyOnWriteArrayList<>();
 		setPosition(x,y);
 		setSize(w, h);

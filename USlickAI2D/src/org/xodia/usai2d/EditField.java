@@ -1,11 +1,17 @@
 package org.xodia.usai2d;
 
 import org.newdawn.slick.Font;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
 public class EditField extends BasicUserInterface{
+	
+	private final int KEY_REPEAT_INTERVAL = 150;
+	private final int INIT_KEY_REPEAT_INTERVAL = 50;
+	
+	private long repeatTimer;
 	
 	private String text;
 	private String wrappedText;
@@ -17,9 +23,12 @@ public class EditField extends BasicUserInterface{
 	private int maxChars;
 	private int row;
 	private int stringHeight;
+	private int lastKey;
 	
-	public EditField(float x, float y, float w, float h) {
-		super(x, y, w, h);
+	private char lastChar;
+	
+	public EditField(GameContainer gc, float x, float y, float w, float h) {
+		super(gc, x, y, w, h);
 		
 		setText("");
 		setMaxCharacters(32);
@@ -31,6 +40,14 @@ public class EditField extends BasicUserInterface{
 		super.keyPressed(key, c);
 
 		if(isEditable){
+			if(lastKey != key){
+				lastKey = key;
+				lastChar = c;
+				repeatTimer = System.currentTimeMillis() + INIT_KEY_REPEAT_INTERVAL;
+			}else{
+				repeatTimer = System.currentTimeMillis() + KEY_REPEAT_INTERVAL;
+			}
+			
 			if(key == Input.KEY_BACK){
 				if(cPosition != 0){
 					if(cPosition == text.length()){
@@ -74,6 +91,17 @@ public class EditField extends BasicUserInterface{
 	
 	public void render(Graphics g) {
 		super.render(g);
+		
+		if(lastKey != -1){
+			if(container.getInput().isKeyDown(lastKey)){
+				if(repeatTimer < System.currentTimeMillis()){
+					repeatTimer = System.currentTimeMillis() + KEY_REPEAT_INTERVAL;
+					keyPressed(lastKey, lastChar);
+				}
+			}else{
+				lastKey = -1;
+			}
+		}
 		
 		g.setColor(DEFAULT_TEXT);
 		if(wordWrap){

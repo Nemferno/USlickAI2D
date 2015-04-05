@@ -1,5 +1,6 @@
 package org.xodia.usai2d;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -18,8 +19,8 @@ public class Container extends BasicUserInterface {
 	
 	private Panel content;
 	
-	public Container(float x, float y, float w, float h) {
-		super(x, y, w, h);
+	public Container(GameContainer gc, float x, float y, float w, float h) {
+		super(gc, x, y, w, h);
 	}
 	
 	public void render(Graphics g){
@@ -168,14 +169,14 @@ public class Container extends BasicUserInterface {
 	}
 	
 	private void setVerticalScroller(){
-		vScroller = new VerticalScroller(getWidth() * 0.1f, getHeight());
+		vScroller = new VerticalScroller(container, getWidth() * 0.1f, getHeight());
 		vScroller.setPosition((getWidth() - vScroller.getWidth()), 0);
 		vScroller.setContentHeight(contentHeight);
 		addChild(vScroller);
 	}
 	
 	private void setHorizontalScroller(){
-		hScroller = new HorizontalScroller(getWidth(), getHeight() * 0.1f);
+		hScroller = new HorizontalScroller(container, getWidth(), getHeight() * 0.1f);
 		hScroller.setPosition(0, (getHeight() - hScroller.getHeight()));
 		hScroller.setContentWidth(contentWidth);
 		addChild(hScroller);

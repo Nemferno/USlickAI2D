@@ -1,5 +1,6 @@
 package org.xodia.usai2d;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 public class Button extends BasicUserInterface {
@@ -7,16 +8,16 @@ public class Button extends BasicUserInterface {
 	private String text;
 	private OnClickListener listener;
 	
-	public Button(float x, float y, float w, float h){
-		this("Button", x, y, w, h);
+	public Button(GameContainer gc, float x, float y, float w, float h){
+		this(gc, "Button", x, y, w, h);
 	}
 	
-	public Button(String text, float x, float y, float w, float h) {
-		this(text, x, y, w, h, null);
+	public Button(GameContainer gc, String text, float x, float y, float w, float h) {
+		this(gc, text, x, y, w, h, null);
 	}
 	
-	public Button(String text, float x, float y, float w, float h, OnClickListener listener){
-		super(x, y, w, h);
+	public Button(GameContainer gc, String text, float x, float y, float w, float h, OnClickListener listener){
+		super(gc, x, y, w, h);
 		
 		this.text = text;
 		this.listener = listener;

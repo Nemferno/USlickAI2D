@@ -1,5 +1,6 @@
 package org.xodia.usai2d;
 
+import org.newdawn.slick.GameContainer;
 import org.xodia.usai2d.Button.OnClickListener;
 import org.xodia.usai2d.layout.VerticalLayout;
 
@@ -12,16 +13,16 @@ public class SelectionList extends BasicUserInterface {
 	private String sString;
 	private OnChangedListener listener;
 	
-	public SelectionList(float x, float y, float w, float h){
-		this(x, y, w, h, 10);
+	public SelectionList(GameContainer gc, float x, float y, float w, float h){
+		this(gc, x, y, w, h, 10);
 	}
 	
-	public SelectionList(float x, float y, float w, float h, int capacity) {
-		this(x, y, w, h, capacity, null);
+	public SelectionList(GameContainer gc, float x, float y, float w, float h, int capacity) {
+		this(gc, x, y, w, h, capacity, null);
 	}
 
-	public SelectionList(float x, float y, float w, final float h, int capacity, OnChangedListener listener){
-		super(x, y, w, h);
+	public SelectionList(GameContainer gc, float x, float y, float w, final float h, int capacity, OnChangedListener listener){
+		super(gc, x, y, w, h);
 		
 		this.listener = listener;
 		
@@ -33,12 +34,12 @@ public class SelectionList extends BasicUserInterface {
 			tempH = h * 2.5f;
 		}
 		
-		c = new Container(0, h, w, tempH);
+		c = new Container(gc, 0, h, w, tempH);
 		c.setVisible(false);
-		p = new Panel(w, capacity * (h * 0.25f));
+		p = new Panel(gc, w, capacity * (h * 0.25f));
 		p.setLayout(new VerticalLayout());
 		c.setContent(p);
-		expandButton = new Button("Select", 0, 0, w, h, new OnClickListener(){
+		expandButton = new Button(gc, "Select", 0, 0, w, h, new OnClickListener(){
 			public void onClick(int button) {
 				if(c.isVisible()){
 					// Remove it
@@ -66,7 +67,7 @@ public class SelectionList extends BasicUserInterface {
 	}
 	
 	public void addItem(final String item, String desc){
-		Button b = new Button(item, 0, 0, p.getWidth(), getHeight() * 0.25f, new OnClickListener(){
+		Button b = new Button(container, item, 0, 0, p.getWidth(), getHeight() * 0.25f, new OnClickListener(){
 			public void onClick(int button){
 				sString = item;
 				expandButton.setText(item);

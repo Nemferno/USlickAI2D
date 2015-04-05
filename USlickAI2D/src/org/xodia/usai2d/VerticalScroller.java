@@ -1,5 +1,7 @@
 package org.xodia.usai2d;
 
+import org.newdawn.slick.GameContainer;
+
 public class VerticalScroller extends BasicUserInterface implements IScroller{
 
 	private Handle h;
@@ -7,10 +9,10 @@ public class VerticalScroller extends BasicUserInterface implements IScroller{
 	private float pressedY;
 	private boolean canDrag;
 	
-	public VerticalScroller(float w, float h){
-		super(w, h);
+	public VerticalScroller(GameContainer gc, float w, float h){
+		super(gc, w, h);
 		
-		this.h = new Handle(w, h);
+		this.h = new Handle(gc, w, h);
 		addChild(this.h);
 	}
 	

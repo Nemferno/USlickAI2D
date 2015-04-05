@@ -1,14 +1,18 @@
 package org.xodia.usai2d;
 
 import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.gui.TextField;
 import org.xodia.usai2d.Button.OnClickListener;
 
 public class TestApp extends BasicUIGame{
 
+	TextField field;
+	
 	public TestApp(String title) {
 		super(title);
 	}
@@ -22,14 +26,14 @@ public class TestApp extends BasicUIGame{
 	}
 
 	public void preRender(GameContainer gc, Graphics g) throws SlickException {
-		
+		field.render(gc, g);
 	}
 
 	public void init(GameContainer gc) throws SlickException {
-		EditField edit = new EditField(100, 100, 100, 50);
+		EditField edit = new EditField(gc, 100, 100, 100, 50);
 		addUI(edit);
 		registerKeyUI(edit);
-		Button testButton = new ToggleButton("1", 32, 32, 32, 32);
+		Button testButton = new ToggleButton(gc, "1", 32, 32, 32, 32);
 		testButton.setOnClickListener(new OnClickListener() {
 			public void onClick(int button) {
 				System.out.println("Test One");
@@ -37,16 +41,18 @@ public class TestApp extends BasicUIGame{
 		});
 		addUI(testButton);
 		
+		field = new TextField(gc, gc.getDefaultFont(), 0, 400, 100, 100);
+		
 		//Container c = new Container(200, 200, 100, 100);
 		//c.setContent(new Panel(120, 120));
 		//addUI(c);
 		
-		TextArea area = new TextArea(200, 100);
+		TextArea area = new TextArea(gc, 200, 100);
 		area.setPosition(350, 200);
 		addUI(area);
 		registerKeyUI(area);
 
-		List list = new List(300, 0, 100, 100, 6);
+		List list = new List(gc, 300, 0, 100, 100, 6);
 		list.addItem("HI");
 		list.addItem("HI");
 		list.addItem("HI");
@@ -73,11 +79,11 @@ public class TestApp extends BasicUIGame{
 		//list.addItem("Luc");
 		//addUI(list);
 		
-		DialogFactory.createYesNoDialog("TESTING ! @ #", new OnClickListener() {
+		/*DialogFactory.createYesNoDialog("TESTING ! @ #", new OnClickListener() {
 			public void onClick(int button) {
 				System.out.println("KNOB!");
 			}
-		}).setPosition(gc.getWidth() / 2 - 125, gc.getHeight() / 2 - 125);
+		}).setPosition(gc.getWidth() / 2 - 125, gc.getHeight() / 2 - 125);*/
 	}
 
 	public static void main(String[] args) throws SlickException{
