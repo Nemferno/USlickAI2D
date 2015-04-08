@@ -68,11 +68,13 @@ public class DialogManager {
 				if(!isFocused){
 					isFocused = true;
 					d.setFocused(true);
+					assignFocusedDialogTop();
 				}else{
 					Dialog focused = getFocusedDialog();
 					if(!focused.isModal()){
 						focused.setFocused(false);
 						d.setFocused(true);
+						assignFocusedDialogTop();
 					}
 				}
 			}
@@ -159,6 +161,23 @@ public class DialogManager {
 		return null;
 	}
 	
+	public void assignFocusedDialogTop(){
+		Dialog d = getFocusedDialog();
+		dialogList.remove(d); // Remove it
+		dialogList.add(0, d); // Re-add it to the top
+	}
+	
+	private void revalidateFocus(){
+		if(modalList.size() > 0){
+			modalList.get(modalList.size() - 1).setFocused(true);
+			isFocused = true;
+		}
+	}
+	
+	public static DialogManager getInstance(){
+		return Instance.instance;
+	}
+	
 	/*public boolean mousePressed(int button, int x, int y){
 		// This is only for frames!
 		Dialog d = getFocusedDialog();
@@ -220,16 +239,5 @@ public class DialogManager {
 		
 		return false;
 	}*/
-	
-	private void revalidateFocus(){
-		if(modalList.size() > 0){
-			modalList.get(modalList.size() - 1).setFocused(true);
-			isFocused = true;
-		}
-	}
-	
-	public static DialogManager getInstance(){
-		return Instance.instance;
-	}
 	
 }
