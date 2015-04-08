@@ -1,18 +1,14 @@
 package org.xodia.usai2d;
 
 import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.gui.TextField;
 import org.xodia.usai2d.Button.OnClickListener;
 
 public class TestApp extends BasicUIGame{
 
-	TextField field;
-	
 	public TestApp(String title) {
 		super(title);
 	}
@@ -26,22 +22,20 @@ public class TestApp extends BasicUIGame{
 	}
 
 	public void preRender(GameContainer gc, Graphics g) throws SlickException {
-		field.render(gc, g);
+
 	}
 
 	public void init(GameContainer gc) throws SlickException {
-		EditField edit = new EditField(gc, 100, 100, 100, 50);
+		TextField edit = new TextField(gc, 100, 100, 100, 50);
 		addUI(edit);
 		registerKeyUI(edit);
-		Button testButton = new ToggleButton(gc, "1", 32, 32, 32, 32);
+		Button testButton = new ToggleButton(gc, "HELLO", 32, 32, 100, 100);
 		testButton.setOnClickListener(new OnClickListener() {
 			public void onClick(int button) {
 				System.out.println("Test One");
 			}
 		});
-		addUI(testButton);
-		
-		field = new TextField(gc, gc.getDefaultFont(), 0, 400, 100, 100);
+		//addUI(testButton);
 		
 		//Container c = new Container(200, 200, 100, 100);
 		//c.setContent(new Panel(120, 120));
@@ -51,7 +45,7 @@ public class TestApp extends BasicUIGame{
 		area.setPosition(350, 200);
 		addUI(area);
 		registerKeyUI(area);
-
+		
 		List list = new List(gc, 300, 0, 100, 100, 6);
 		list.addItem("HI");
 		list.addItem("HI");

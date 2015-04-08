@@ -6,7 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
-public class EditField extends BasicUserInterface{
+public class TextField extends BasicUserInterface{
 	
 	private final int KEY_REPEAT_INTERVAL = 50;
 	private final int INIT_KEY_REPEAT_INTERVAL = 400;
@@ -30,7 +30,7 @@ public class EditField extends BasicUserInterface{
 	
 	private char lastChar;
 	
-	public EditField(GameContainer gc, float x, float y, float w, float h) {
+	public TextField(GameContainer gc, float x, float y, float w, float h) {
 		super(gc, x, y, w, h);
 		
 		setText("");
@@ -111,7 +111,7 @@ public class EditField extends BasicUserInterface{
 		g.setColor(DEFAULT_TEXT);
 		if(wordWrap){
 			wordWrap(g.getFont());
-			g.drawString(wrappedText, getX() + 1, getY() + 1);
+		    g.drawString(text, getX() + 1, getY() + 1);
 		}else{
 			Rectangle oldClip = g.getWorldClip();
 			g.setWorldClip(getX(), getY(), getWidth(), getHeight());
@@ -128,12 +128,13 @@ public class EditField extends BasicUserInterface{
 			int cpos = g.getFont().getWidth(temp.substring(0, cPosition));
 			int tx = 0;
 			
-			if(cpos > getWidth())
+			if(cpos > getWidth()){
 				tx = (int) getWidth() - cpos - g.getFont().getWidth("|");
-			
+			}
+				
 			g.translate(tx, 0);
 			g.drawString(text, getX() + 1, getY() + 1);
-			
+		
 			if(isKeyFocused())
 				g.drawString("|", getX() + cpos - 5, getY() + 1);
 			g.translate(-tx, 0);

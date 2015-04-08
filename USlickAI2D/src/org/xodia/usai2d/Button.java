@@ -22,6 +22,11 @@ public class Button extends BasicUserInterface {
 		
 		this.text = text;
 		this.listener = listener;
+		this.textOption = TextOption.LEFT;
+	}
+	
+	public void setTestOption(TextOption option){
+		this.textOption = option;
 	}
 	
 	public void mousePressed(int button, int x, int y) {
@@ -35,7 +40,17 @@ public class Button extends BasicUserInterface {
 		super.render(g);
 		
 		g.setColor(DEFAULT_TEXT);
-		g.drawString(text, getX() + getWidth() / 2 - g.getFont().getWidth(text) / 2, getY() + getHeight() / 2 - g.getFont().getHeight(text) / 2);
+		switch(textOption){
+		case CENTER:
+			g.drawString(text, getX() + getWidth() / 2 - g.getFont().getWidth(text) / 2, getY() + getHeight() / 2 - g.getFont().getHeight(text) / 2);
+			break;
+		case LEFT:
+			g.drawString(text, getX(), getY() + getHeight() / 2 - g.getFont().getHeight(text) / 2);
+			break;
+		case RIGHT:
+			g.drawString(text, getX() + getWidth() - g.getFont().getWidth(text), getY() + getHeight() / 2 - g.getFont().getHeight(text) / 2);
+			break;
+		}
 	}
 	
 	public void setOnClickListener(OnClickListener l){
@@ -48,6 +63,10 @@ public class Button extends BasicUserInterface {
 	
 	public String getText(){
 		return text;
+	}
+	
+	public TextOption getTextOption(){
+		return textOption;
 	}
 	
 	public static interface OnClickListener {

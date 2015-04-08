@@ -2,7 +2,7 @@ package org.xodia.usai2d;
 
 import org.newdawn.slick.GameContainer;
 
-public class Label extends EditField {
+public class Label extends TextField {
 	
 	public Label(GameContainer gc, float x, float y, float w, float h){
 		this(gc, "", x, y, w, h);

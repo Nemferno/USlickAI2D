@@ -31,7 +31,17 @@ public class ToggleButton extends Button {
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 		
 		g.setColor(DEFAULT_TEXT);
-		g.drawString(getText(), getX() + getWidth() / 2 - g.getFont().getWidth(getText()) / 2, getY() + getHeight() / 2 - g.getFont().getHeight(getText()) / 2);
+		switch(getTextOption()){
+		case CENTER:
+			g.drawString(getText(), getX() + getWidth() / 2 - g.getFont().getWidth(getText()) / 2, getY() + getHeight() / 2 - g.getFont().getHeight(getText()) / 2);
+			break;
+		case LEFT:
+			g.drawString(getText(), getX(), getY() + getHeight() / 2 - g.getFont().getHeight(getText()) / 2);
+			break;
+		case RIGHT:
+			g.drawString(getText(), getX() + getWidth() - g.getFont().getWidth(getText()), getY() + getHeight() / 2 - g.getFont().getHeight(getText()) / 2);
+			break;
+		}
 	}
 	
 	public void mousePressed(int button, int x, int y) {

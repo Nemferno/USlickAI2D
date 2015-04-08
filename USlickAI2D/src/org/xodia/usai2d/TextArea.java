@@ -14,14 +14,14 @@ public class TextArea extends BasicUserInterface{
 
 	private Container c;
 	private Panel p;
-	private EditField field;
+	private TextField field;
 	
 	public TextArea(GameContainer gc, float width, float height){
 		super(gc, width, height);
 		
 		c = new Container(gc, 0, 0, width, height);
 		p = new Panel(gc, width, height);
-		field = new EditField(gc, 0, 0, width, height){
+		field = new TextField(gc, 0, 0, width, height){
 			public void render(Graphics g) {
 				super.render(g);
 
