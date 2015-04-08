@@ -87,6 +87,10 @@ public abstract class BasicUIGame extends BasicGame {
 		return isOnUI;
 	}
 	
+	public boolean isKeyOnUI(){
+		return kManager.isKeyFocused();
+	}
+	
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
 		super.mouseDragged(oldx, oldy, newx, newy);
 		

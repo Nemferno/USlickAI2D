@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 
 public class Button extends BasicUserInterface {
 	
+	private TextOption textOption;
 	private String text;
 	private OnClickListener listener;
 	

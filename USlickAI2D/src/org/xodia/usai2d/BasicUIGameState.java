@@ -102,6 +102,10 @@ public abstract class BasicUIGameState extends BasicGameState {
 		return isOnUI;
 	}
 	
+	public boolean isKeyOnUI(){
+		return kManager.isKeyFocused();
+	}
+	
 	public int getID(){
 		return id;
 	}

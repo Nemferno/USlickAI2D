@@ -1,6 +1,6 @@
 package org.xodia.usai2d;
 
-public enum TextOptions {
+public enum TextOption {
 
 	LEFT, CENTER, RIGHT
 	

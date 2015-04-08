@@ -6,6 +6,9 @@ import org.xodia.usai2d.layout.VerticalLayout;
 
 public class SelectionList extends BasicUserInterface {
 
+	private int capacity;
+	private int numOfChilds;
+	
 	private Container c;
 	private Panel p;
 	private Button expandButton;
@@ -25,6 +28,7 @@ public class SelectionList extends BasicUserInterface {
 		super(gc, x, y, w, h);
 		
 		this.listener = listener;
+		this.capacity = capacity;
 		
 		float tempH = 0;
 		
@@ -67,21 +71,24 @@ public class SelectionList extends BasicUserInterface {
 	}
 	
 	public void addItem(final String item, String desc){
-		Button b = new Button(container, item, 0, 0, p.getWidth(), getHeight() * 0.25f, new OnClickListener(){
-			public void onClick(int button){
-				sString = item;
-				expandButton.setText(item);
-				listener.changedSelection(item);
-				c.setVisible(false);
-				removeChild(c);
-				c.setPosition(0, getHeight());
-				removeChild(expandButton);
-				expandButton.setPosition(0, 0);
-				setSize(getWidth(), getHeight() - c.getHeight());
-				addChild(expandButton);
-			}
-		});
-		p.addChild(b);
+		if(numOfChilds < capacity){
+			Button b = new Button(container, item, 0, 0, p.getWidth(), getHeight() * 0.25f, new OnClickListener(){
+				public void onClick(int button){
+					sString = item;
+					expandButton.setText(item);
+					listener.changedSelection(item);
+					c.setVisible(false);
+					removeChild(c);
+					c.setPosition(0, getHeight());
+					removeChild(expandButton);
+					expandButton.setPosition(0, 0);
+					setSize(getWidth(), getHeight() - c.getHeight());
+					addChild(expandButton);
+				}
+			});
+			p.addChild(b);
+			numOfChilds++;
+		}
 	}
 	
 	public void addItem(String item){
@@ -90,6 +97,7 @@ public class SelectionList extends BasicUserInterface {
 	
 	public void clearList(){
 		p.clearChildren();
+		numOfChilds = 0;
 	}
 	
 	public void setOnChangedListener(OnChangedListener listener){

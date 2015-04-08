@@ -8,8 +8,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class EditField extends BasicUserInterface{
 	
-	private final int KEY_REPEAT_INTERVAL = 150;
-	private final int INIT_KEY_REPEAT_INTERVAL = 50;
+	private final int KEY_REPEAT_INTERVAL = 50;
+	private final int INIT_KEY_REPEAT_INTERVAL = 400;
 	
 	private long repeatTimer;
 	
@@ -24,6 +24,9 @@ public class EditField extends BasicUserInterface{
 	private int row;
 	private int stringHeight;
 	private int lastKey;
+	
+	private int startSelectIndex;
+	private int currentSelectIndex;
 	
 	private char lastChar;
 	
@@ -40,6 +43,8 @@ public class EditField extends BasicUserInterface{
 		super.keyPressed(key, c);
 
 		if(isEditable){
+			
+			
 			if(lastKey != key){
 				lastKey = key;
 				lastChar = c;

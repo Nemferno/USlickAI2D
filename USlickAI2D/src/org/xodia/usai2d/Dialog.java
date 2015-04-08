@@ -44,6 +44,7 @@ public class Dialog extends BasicUserInterface {
 		
 		this.isDraggable = isDraggable;
 		this.isModal = isModal;
+		setPosition(gc.getWidth() / 2 - w / 2, gc.getHeight() / 2 - h / 2);
 		
 		if(isModal){
 			DialogManager.getInstance().addModal(this);
