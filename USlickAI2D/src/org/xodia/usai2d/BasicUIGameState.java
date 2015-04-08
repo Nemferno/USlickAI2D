@@ -181,9 +181,11 @@ public abstract class BasicUIGameState extends BasicGameState {
 						Dialog focus = dManager.getFocusedDialog();
 						focus.setFocused(false);
 						d.setFocused(true);
+						dManager.assignFocusedDialogTop();
 					}else{
 						d.setFocused(true);
 						dManager.setFocused(true);
+						dManager.assignFocusedDialogTop();
 					}
 					
 					isOnDialog = true;
