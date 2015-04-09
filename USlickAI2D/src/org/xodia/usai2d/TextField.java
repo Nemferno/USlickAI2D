@@ -1,5 +1,6 @@
 package org.xodia.usai2d;
 
+import org.lwjgl.Sys;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -37,13 +38,41 @@ public class TextField extends BasicUserInterface{
 		setMaxCharacters(32);
 		setEditable(true);
 		setWordWrap(false);
+		
+		startSelectIndex = -1;
+	}
+	
+	private void paste(){
+		String copy = Sys.getClipboard();
+		text = text.substring(0, cPosition) + copy + text.substring(cPosition, text.length());
+		cPosition = cPosition + copy.length();
+		
+		if(text.length() > maxChars){
+			text = text.substring(maxChars);
+			cPosition = maxChars;
+		}
 	}
 	
 	public void keyPressed(int key, char c) {
 		super.keyPressed(key, c);
 
 		if(isEditable){
-			
+			if(key != -1){
+				if(key == Input.KEY_V && (container.getInput().isKeyDown(Input.KEY_LCONTROL) || container.getInput().isKeyDown(Input.KEY_RCONTROL))){
+					paste();
+					return;
+				}
+				
+				if(key == Input.KEY_C && (container.getInput().isKeyDown(Input.KEY_LCONTROL) || container.getInput().isKeyDown(Input.KEY_RCONTROL))){
+					
+					return;
+				}
+				
+				if(container.getInput().isKeyDown(Input.KEY_LCONTROL) || container.getInput().isKeyDown(Input.KEY_RCONTROL) || 
+				   container.getInput().isKeyDown(Input.KEY_LALT) || container.getInput().isKeyDown(Input.KEY_RALT)){
+					return;
+				}
+			}
 			
 			if(lastKey != key){
 				lastKey = key;
@@ -54,18 +83,18 @@ public class TextField extends BasicUserInterface{
 			}
 			
 			if(key == Input.KEY_BACK){
-				if(cPosition != 0){
-					if(cPosition == text.length()){
+				if(cPosition == text.length()){
+					if(cPosition > 0){
 						text = text.substring(0, cPosition - 1);
 						cPosition = text.length();
-					}else if(cPosition != text.length()){
-						text = text.substring(0, cPosition - 1) + text.substring(cPosition, text.length());
-						cPosition--;
 					}
+				}else if(cPosition != text.length()){
+					text = text.substring(0, cPosition - 1) + text.substring(cPosition, text.length());
+					cPosition--;
 				}
 			}else if(key == Input.KEY_DELETE){
 				if(cPosition != text.length()){
-					text = text.substring(0, cPosition + 1) + text.substring(cPosition + 2, text.length());
+					text = text.substring(0, cPosition) + text.substring(cPosition + 1, text.length());
 				}
 			}else if(key == Input.KEY_LEFT){
 				if(cPosition > 0){

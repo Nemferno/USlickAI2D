@@ -25,9 +25,9 @@ public class TestApp extends BasicUIGame{
 	}
 
 	public void init(GameContainer gc) throws SlickException {
-		Dialog d = new Dialog(gc, 50, 50, false, true);
-		d = new Dialog(gc, 50, 50, false, true);
-		d.setPosition(0, 0);
+		TextField field = new TextField(gc, 100, 100, 200, 25);
+		addUI(field);
+		registerKeyUI(field);
 	}
 
 	public static void main(String[] args) throws SlickException{
