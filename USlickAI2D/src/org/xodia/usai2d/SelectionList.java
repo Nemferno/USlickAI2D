@@ -76,7 +76,8 @@ public class SelectionList extends BasicUserInterface {
 				public void onClick(int button){
 					sString = item;
 					expandButton.setText(item);
-					listener.changedSelection(item);
+					if(listener != null)
+						listener.changedSelection(item);
 					c.setVisible(false);
 					removeChild(c);
 					c.setPosition(0, getHeight());
