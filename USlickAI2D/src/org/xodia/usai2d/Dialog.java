@@ -135,9 +135,8 @@ public class Dialog extends BasicUserInterface {
 	public void render(Graphics g){
 		super.render(g);
 		
-		draggableBounds.setLocation(getX(), getY());
-		
 		if(isDraggable){
+			draggableBounds.setLocation(getX(), getY());
 			g.setColor(DEFAULT_BAR);
 			g.fill(draggableBounds);
 			
