@@ -1,7 +1,6 @@
 package org.xodia.usai2d;
 
 import org.lwjgl.Sys;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -15,31 +14,26 @@ public class TextField extends BasicUserInterface{
 	private long repeatTimer;
 	
 	private String text;
-	private String wrappedText;
+	//private String wrappedText;
 	
 	private boolean isEditable;
-	private boolean wordWrap;
+	//private boolean wordWrap;
 	
 	private int cPosition;
 	private int maxChars;
-	private int row;
-	private int stringHeight;
+	//private int row;
+	//private int stringHeight;
 	private int lastKey;
-	
-	private int startSelectIndex;
-	private int currentSelectIndex;
 	
 	private char lastChar;
 	
 	public TextField(GameContainer gc, float x, float y, float w, float h) {
 		super(gc, x, y, w, h);
-		
+	
 		setText("");
 		setMaxCharacters(32);
 		setEditable(true);
-		setWordWrap(false);
-		
-		startSelectIndex = -1;
+		//setWordWrap(false);
 	}
 	
 	private void paste(){
@@ -60,11 +54,6 @@ public class TextField extends BasicUserInterface{
 			if(key != -1){
 				if(key == Input.KEY_V && (container.getInput().isKeyDown(Input.KEY_LCONTROL) || container.getInput().isKeyDown(Input.KEY_RCONTROL))){
 					paste();
-					return;
-				}
-				
-				if(key == Input.KEY_C && (container.getInput().isKeyDown(Input.KEY_LCONTROL) || container.getInput().isKeyDown(Input.KEY_RCONTROL))){
-					
 					return;
 				}
 				
@@ -138,10 +127,10 @@ public class TextField extends BasicUserInterface{
 		}
 		
 		g.setColor(DEFAULT_TEXT);
-		if(wordWrap){
+		/*if(wordWrap){
 			wordWrap(g.getFont());
 		    g.drawString(text, getX() + 1, getY() + 1);
-		}else{
+		}else{*/
 			Rectangle oldClip = g.getWorldClip();
 			g.setWorldClip(getX(), getY(), getWidth(), getHeight());
 			String temp = "";
@@ -164,13 +153,13 @@ public class TextField extends BasicUserInterface{
 			g.translate(tx, 0);
 			g.drawString(text, getX() + 1, getY() + 1);
 		
-			if(isKeyFocused())
+			if(isKeyFocused() && isEditable)
 				g.drawString("|", getX() + cpos - 5, getY() + 1);
 			g.translate(-tx, 0);
 			
 			g.setWorldClip(oldClip);
-		}
-	}
+		//}
+	}/*
 	
 	private void wordWrap(Font f){
 		boolean startsWithSpace = false, endsWithSpace = false;
@@ -250,7 +239,7 @@ public class TextField extends BasicUserInterface{
 		if(row <= numNs){
 			row = numNs + 1;
 		}
-	}
+	}*/
 	
 	public void setText(String text){
 		this.text = text;
@@ -260,9 +249,9 @@ public class TextField extends BasicUserInterface{
 		this.isEditable = editable;
 	}
 	
-	public void setWordWrap(boolean wordWrap){
+	/*public void setWordWrap(boolean wordWrap){
 		this.wordWrap = wordWrap;
-	}
+	}*/
 	
 	public void setMaxCharacters(int maxC){
 		this.maxChars = maxC;
@@ -272,9 +261,9 @@ public class TextField extends BasicUserInterface{
 		return text;
 	}
 	
-	public String getWrappedText(){
+	/*public String getWrappedText(){
 		return wrappedText;
-	}
+	}*/
 	
 	public int getMaxCharacters(){
 		return maxChars;
@@ -284,12 +273,12 @@ public class TextField extends BasicUserInterface{
 		return isEditable;
 	}
 	
-	public boolean isWordWrap(){
+	/*public boolean isWordWrap(){
 		return wordWrap;
 	}
 	
 	public int getTextHeight(){
 		return stringHeight;
-	}
+	}*/
 
 }

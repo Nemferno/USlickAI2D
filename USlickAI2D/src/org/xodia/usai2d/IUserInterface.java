@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 /**
  * 
@@ -17,6 +18,12 @@ import org.newdawn.slick.Graphics;
  */
 public interface IUserInterface {
 
+
+	public static final int EXITED_ON_PRESSED = 1,
+							EXITED_ON_RELEASED = 2,
+							EXITED_ON_MOVED = 3,
+							EXITED_ON_DRAGGED = 4;
+	
 	Color DEFAULT_BORDER = Color.black;
 	Color DEFAULT_BACKGROUND = Color.gray;
 	Color DEFAULT_TEXT = Color.white;
@@ -66,6 +73,18 @@ public interface IUserInterface {
 	 * Is the user interface being focused
 	 */
 	void setKeyFocused(boolean focus);
+	/**
+	 * Is the user interface's mouse inputs focused and listened to?
+	 * @param focus
+	 * Is the user interface being focused
+	 */
+	void setMouseFocused(boolean focus);
+	/**
+	 * Assigns the Image to the Background Image
+	 * @param background
+	 * The image for the background of the UI
+	 */
+	void setBackgroundImage(Image image);
 	
 	/**
 	 * Adds the child to the user interface. The child's x & y position is set by adding it upon
@@ -98,6 +117,12 @@ public interface IUserInterface {
 	 * Is the interface focused?
 	 */
 	boolean isKeyFocused();
+	/**
+	 * Returns if the interface is focused
+	 * @return
+	 * Is the interface focused?
+	 */
+	boolean isMouseFocused();
 	/**
 	 * Returns if the user interface is disabled
 	 * @return
@@ -183,6 +208,7 @@ public interface IUserInterface {
 	void mouseDragged(int oldx, int oldy, int newx, int newy);
 	void mousePressed(int button, int x, int y);
 	void mouseReleased(int button, int x, int y);
+	void mouseExited(int type);
 	void keyPressed(int key, char c);
 	void keyReleased(int key, char c);
 }

@@ -12,7 +12,6 @@ public class Label extends TextField {
 		super(gc, x, y, w, h);
 		
 		setEditable(false);
-		setWordWrap(true);
 		setText(text);
 	}
 	

@@ -16,6 +16,8 @@ public abstract class BasicUIGame extends BasicGame {
 	private List<IUserInterface> uiList;
 	private KeyManager kManager;
 	private DialogManager dManager;
+	private IUserInterface focusedUI;
+	private boolean isUIFocused;
 	private boolean isOnUI;
 	private boolean isOnDialog;
 	private boolean isDragOnDialog;
@@ -136,6 +138,7 @@ public abstract class BasicUIGame extends BasicGame {
 			for(IUserInterface ui : uiList){
 				if(newx >= ui.getX() && newx <= ui.getX() + ui.getWidth() &&
 					newy >= ui.getY() && newy <= ui.getY() + ui.getHeight()){
+					
 					ui.mouseMoved(oldx, oldy, newx, newy);
 				}
 			}
@@ -181,9 +184,22 @@ public abstract class BasicUIGame extends BasicGame {
 					if(x >= ui.getX() && x <= ui.getX() + ui.getWidth() &&
 						y >= ui.getY() && y <= ui.getY() + ui.getHeight()){
 						isOnUI = true;
-						ui.mousePressed(button, x, y);
+						// FIX
+						if(!ui.isMouseFocused()){
+							if(focusedUI != null){
+								focusedUI.setMouseFocused(false);
+								focusedUI.mouseExited(IUserInterface.EXITED_ON_PRESSED);
+							}
+								
+							isUIFocused = true;
+							focusedUI = ui;
+							ui.setMouseFocused(true);
+						}
 					}
 				}
+				
+				if(focusedUI != null)
+					focusedUI.mousePressed(button, x, y);
 			}else{
 				Dialog d = dManager.getFocusedDialog();
 				if(d != null)

@@ -4,21 +4,29 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.xodia.usai2d.layout.BorderLayout;
 import org.xodia.usai2d.layout.BorderLayout.Direction;
 import org.xodia.usai2d.layout.ILayout;
 
+// TODO Add in MouseExited
 public class BasicUserInterface implements IUserInterface {
 
 	protected List<IUserInterface> children;
 	protected GameContainer container;
 	private IUserInterface parent;
 	private ILayout layout;
+	
+	private Image backgroundImage;
+	protected Font font;
+	
 	private float x, y;
 	private float width, height;
 	private boolean isKeyFocused;
+	private boolean isMouseFocused;
 	private boolean isDisabled;
 	private boolean isVisible;
 	
@@ -28,6 +36,7 @@ public class BasicUserInterface implements IUserInterface {
 	
 	public BasicUserInterface(GameContainer gc, float x, float y, float w, float h){
 		container = gc;
+		font = gc.getDefaultFont();
 		children = new CopyOnWriteArrayList<>();
 		setPosition(x,y);
 		setSize(w, h);
@@ -84,6 +93,22 @@ public class BasicUserInterface implements IUserInterface {
 			ui.setKeyFocused(focus);
 		}
 	}
+	
+	public void setBackgroundImage(Image background){
+		backgroundImage = background;
+		
+		if(background.getWidth() != getWidth() || background.getHeight() != getHeight()){
+			backgroundImage = background.getScaledCopy((int) getWidth(), (int) getHeight());
+		}
+	}
+	
+	public void setMouseFocused(boolean focus){
+		this.isMouseFocused = focus;
+		
+		for(IUserInterface ui : children){
+			ui.setMouseFocused(focus);
+		}
+	}
 
 	public void addChild(IUserInterface ui) {
 		ui.setParent(this);
@@ -138,6 +163,10 @@ public class BasicUserInterface implements IUserInterface {
 
 	public boolean isKeyFocused() {
 		return isKeyFocused;
+	}
+	
+	public boolean isMouseFocused(){
+		return isMouseFocused;
 	}
 	
 	public boolean isDisabled(){
@@ -235,13 +264,17 @@ public class BasicUserInterface implements IUserInterface {
 
 	public void render(Graphics g) {
 		if(isVisible){
-			if(!isDisabled)
+			if(!isDisabled){
 				g.setColor(DEFAULT_BACKGROUND);
-			else
-				g.setColor(DEFAULT_DISABLED);
-			g.fillRect(getX(), getY(), getWidth(), getHeight());
-			g.setColor(DEFAULT_BORDER);
-			g.drawRect(getX(), getY(), getWidth(), getHeight());
+			}
+				
+			if(backgroundImage != null){
+				backgroundImage.draw(0, 0);
+			}else{
+				g.fillRect(getX(), getY(), getWidth(), getHeight());
+				g.setColor(DEFAULT_BORDER);
+				g.drawRect(getX(), getY(), getWidth(), getHeight());
+			}
 			
 			Iterator<IUserInterface> childs = children.iterator();
 			while(childs.hasNext()){
@@ -249,6 +282,11 @@ public class BasicUserInterface implements IUserInterface {
 				if(child.isVisible()){
 					child.render(g);
 				}
+			}
+			
+			if(isDisabled){
+				g.setColor(DEFAULT_DISABLED);
+				g.fillRect(getX(), getY(), getWidth(), getHeight());
 			}
 		}
 	}
@@ -307,6 +345,21 @@ public class BasicUserInterface implements IUserInterface {
 					if(x >= ui.getX() && x <= ui.getX() + ui.getWidth() && 
 						y >= ui.getY() && y <= ui.getY() + ui.getHeight()){
 						ui.mouseReleased(button, x, y);
+					}
+				}
+			}
+		}
+	}
+	
+	public void mouseExited(int type){
+		if(!isDisabled && isVisible){
+			Iterator<IUserInterface> it = children.iterator();
+			while(it.hasNext()){
+				IUserInterface ui = it.next();
+				if(ui.isVisible()){
+					if(x >= ui.getX() && x <= ui.getX() + ui.getWidth() && 
+						y >= ui.getY() && y <= ui.getY() + ui.getHeight()){
+						ui.mouseExited(type);
 					}
 				}
 			}
