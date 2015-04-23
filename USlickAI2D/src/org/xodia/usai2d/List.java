@@ -30,6 +30,7 @@ public class List extends BasicUserInterface {
 	public void addItem(final String item, String desc){
 		if(numOfChilds < capacity){
 			Label l = new Label(container, item, 0, 0, p.getWidth(), getHeight() * 0.25f);
+			l.setToolTip(desc);
 			p.addChild(l);
 			capacity++;
 		}

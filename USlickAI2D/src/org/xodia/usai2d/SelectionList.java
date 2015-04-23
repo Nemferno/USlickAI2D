@@ -87,6 +87,7 @@ public class SelectionList extends BasicUserInterface {
 					addChild(expandButton);
 				}
 			});
+			b.setToolTip(desc);
 			p.addChild(b);
 			numOfChilds++;
 		}

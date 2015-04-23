@@ -25,6 +25,10 @@ public class Button extends BasicUserInterface {
 		this.textOption = TextOption.LEFT;
 	}
 	
+	public void setToolTip(String desc){
+		ToolTip.createToolTip(this, desc);
+	}
+	
 	public void setTestOption(TextOption option){
 		this.textOption = option;
 	}

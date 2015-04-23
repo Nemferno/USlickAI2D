@@ -17,6 +17,7 @@ public abstract class BasicUIGameState extends BasicGameState {
 	private List<IUserInterface> uiList;
 	private KeyManager kManager;
 	private DialogManager dManager;
+	private ToolTipManager tManager;
 	private boolean isOnDialog;
 	private boolean isDragOnDialog;
 	private boolean isOnUI;
@@ -28,6 +29,7 @@ public abstract class BasicUIGameState extends BasicGameState {
 		uiList = new ArrayList<>();
 		kManager = KeyManager.getInstance();
 		dManager = DialogManager.getInstance();
+		tManager = ToolTipManager.getInstance();
 	}
 	
 	public void leave(GameContainer container, StateBasedGame game)
@@ -37,6 +39,7 @@ public abstract class BasicUIGameState extends BasicGameState {
 		uiList.clear();
 		kManager.clearKeys();
 		dManager.clearDialogs();
+		tManager.clearToolTips();
 		isOnDialog = false;
 		isDragOnDialog = false;
 		isOnUI = false;
@@ -75,6 +78,10 @@ public abstract class BasicUIGameState extends BasicGameState {
 			}else{
 				d.render(g);
 			}
+		}
+		
+		if(tManager.getFocusedToolTip() != null){
+			tManager.getFocusedToolTip().render(g);
 		}
 	}
 	
@@ -146,6 +153,8 @@ public abstract class BasicUIGameState extends BasicGameState {
 	
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
 		super.mouseMoved(oldx, oldy, newx, newy);
+		
+		tManager.mouseMoved(oldx, oldy, newx, newy);
 		
 		if(!dManager.isModalFocused()){
 			Dialog focus = dManager.getFocusedDialog();

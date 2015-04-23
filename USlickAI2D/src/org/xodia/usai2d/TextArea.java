@@ -19,7 +19,7 @@ public class TextArea extends BasicUserInterface {
 	
 	private char lastChar;
 	private long repeatTimer;
-	private char[][] charPosition;
+	protected char[][] charPosition;
 	private int maxCharacters;
 	private int posX, posY; // Position in the Text Area
 	private int cpos; // TRUE Position in the String
@@ -205,7 +205,7 @@ public class TextArea extends BasicUserInterface {
 		for(int i = 0; i < textCharArray.length; i++){
 			currentWidth += textWidth;
 			
-			if(currentWidth >= getWidth()){
+			if(currentWidth >= getWidth() || textCharArray[i] == '\n'){
 				y++;
 				x = 0;
 				currentWidth = textWidth;
@@ -213,6 +213,11 @@ public class TextArea extends BasicUserInterface {
 				
 				if(currentHeight > getHeight()){
 					offset = (int) (currentHeight - getHeight());
+				}
+				
+				if(textCharArray[i] == '\n'){
+					currentWidth = 0;
+					continue;
 				}
 			}
 
@@ -272,7 +277,9 @@ public class TextArea extends BasicUserInterface {
 			for(int y = 0; y < charPosition.length; y++){
 				for(int x = 0; x < charPosition[y].length; x++){
 					g.drawString(String.valueOf(charPosition[y][x]), getX() + x * textWidth, getY() + y * textHeight);
+					//System.out.print(charPosition[y][x]);
 				}
+				//System.out.println();
 			}
 			
 			if(isKeyFocused() && isEditable){

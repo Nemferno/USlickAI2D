@@ -3,6 +3,7 @@ package org.xodia.usai2d;
 import java.util.Iterator;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
@@ -141,6 +142,12 @@ public interface IUserInterface {
 	 * Parent of the user interface
 	 */
 	IUserInterface getParent();
+	/**
+	 * Returns the game container
+	 * @return
+	 * Game container
+	 */
+	GameContainer getContainer();
 	/**
 	 * Returns the x position
 	 * @return

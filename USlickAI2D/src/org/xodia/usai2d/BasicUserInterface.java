@@ -193,6 +193,10 @@ public class BasicUserInterface implements IUserInterface {
 		return height;
 	}
 	
+	public GameContainer getContainer(){
+		return container;
+	}
+	
 	/**
 	 * You can view more info about this method at {@link IUserInterface#revalidateSize(float, float)}
 	 * You must use this method ONLY when you set the size of the parent.

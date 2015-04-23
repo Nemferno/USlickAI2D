@@ -15,4 +15,8 @@ public class Label extends TextField {
 		setText(text);
 	}
 	
+	public void setToolTip(String desc){
+		ToolTip.createToolTip(this, desc);
+	}
+	
 }

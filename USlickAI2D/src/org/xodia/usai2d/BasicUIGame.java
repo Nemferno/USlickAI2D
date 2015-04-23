@@ -16,6 +16,7 @@ public abstract class BasicUIGame extends BasicGame {
 	private List<IUserInterface> uiList;
 	private KeyManager kManager;
 	private DialogManager dManager;
+	private ToolTipManager tManager;
 	private IUserInterface focusedUI;
 	private boolean isUIFocused;
 	private boolean isOnUI;
@@ -28,6 +29,7 @@ public abstract class BasicUIGame extends BasicGame {
 		uiList = new ArrayList<>();
 		kManager = KeyManager.getInstance();
 		dManager = DialogManager.getInstance();
+		tManager = ToolTipManager.getInstance();
 	}
 	
 	public void update(GameContainer gc, int delta)
@@ -62,6 +64,10 @@ public abstract class BasicUIGame extends BasicGame {
 			}else{
 				d.render(g);
 			}
+		}
+		
+		if(tManager.getFocusedToolTip() != null){
+			tManager.getFocusedToolTip().render(g);
 		}
 	}
 	
@@ -129,6 +135,8 @@ public abstract class BasicUIGame extends BasicGame {
 	
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
 		super.mouseMoved(oldx, oldy, newx, newy);
+		
+		tManager.mouseMoved(oldx, oldy, newx, newy);
 		
 		if(!dManager.isModalFocused()){
 			Dialog focus = dManager.getFocusedDialog();
