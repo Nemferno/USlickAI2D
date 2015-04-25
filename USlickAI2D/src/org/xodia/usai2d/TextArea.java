@@ -11,7 +11,7 @@ public class TextArea extends BasicUserInterface {
 	private final int KEY_REPEAT_INTERVAL = 50;
 	private final int INIT_KEY_REPEAT_INTERVAL = 400;
 	
-	private String text;
+	private StringBuffer text;
 	private Container cont;
 	private Canvas canv;
 	
@@ -34,7 +34,7 @@ public class TextArea extends BasicUserInterface {
 		cont.setContent(canv);
 		
 		maxCharacters = 125;
-		text = "";
+		text = new StringBuffer();
 		isEditable = true;
 		
 		int width = (int) (w / font.getWidth("A")) + 1;
@@ -56,11 +56,15 @@ public class TextArea extends BasicUserInterface {
 	
 	private void paste(){
 		String copy = Sys.getClipboard();
-		text = text.substring(0, cpos) + copy + text.substring(cpos, text.length());
+		//text = text.substring(0, cpos) + copy + text.substring(cpos, text.length());
+		text.insert(cpos, copy);
 		cpos = cpos + copy.length();
 		
 		if(text.length() > maxCharacters){
-			text = text.substring(maxCharacters);
+			//text = text.substring(maxCharacters);
+			String temp = text.substring(maxCharacters);
+			text.setLength(0);
+			text.append(temp);
 			cpos = maxCharacters;
 		}
 	}
@@ -135,11 +139,13 @@ public class TextArea extends BasicUserInterface {
 			}else if(key == Input.KEY_BACK){
 				if(cpos == text.length()){
 					if(cpos > 0){
-						text = text.substring(0, cpos - 1);
+						//text = text.substring(0, cpos - 1);
+						text.deleteCharAt(cpos - 1);
 						cpos = text.length();
 					}
-				}else if(cpos != text.length()){
-					text = text.substring(0, cpos - 1) + text.substring(cpos, text.length());
+				}else if(cpos != text.length() && cpos != 0){
+					//text = text.substring(0, cpos - 1) + text.substring(cpos, text.length());
+					text.deleteCharAt(cpos - 1);
 					cpos--;
 				}
 				
@@ -153,12 +159,14 @@ public class TextArea extends BasicUserInterface {
 				}
 			}else if(key == Input.KEY_DELETE){
 				if(cpos != text.length()){
-					text = text.substring(0, cpos) + text.substring(cpos + 1, text.length());
+					//text = text.substring(0, cpos) + text.substring(cpos + 1, text.length());
+					text.deleteCharAt(cpos);
 				}
 			}else{
 				if(text.length() < maxCharacters){
 					if(Character.isLetterOrDigit(c) || CharacterUtil.isPunctuation(c)){
-						text = text.substring(0, cpos) + c + text.substring(cpos, text.length());
+						//text = text.substring(0, cpos) + c + text.substring(cpos, text.length());
+						text.insert(cpos, c);
 						cpos++;
 						
 						if(posX < charPosition[posY].length - 1){
@@ -170,11 +178,12 @@ public class TextArea extends BasicUserInterface {
 							}
 						}
 					}else if(key == Input.KEY_SPACE){
-						if(cpos == text.length()){
-							text += " ";
-						}else{
-							text = text.substring(0, cpos) + " " + text.substring(cpos, text.length());
-						}
+						//if(cpos == text.length()){
+						//	text += " ";
+						//}else{
+						//	text = text.substring(0, cpos) + " " + text.substring(cpos, text.length());
+						//}
+						text.insert(cpos, ' ');
 						
 						cpos++;
 						
@@ -199,7 +208,7 @@ public class TextArea extends BasicUserInterface {
 		int textWidth = font.getWidth("A");
 		int currentWidth = 0;
 		int currentHeight = textHeight;
-		char[] textCharArray = text.toCharArray();
+		char[] textCharArray = text.toString().toCharArray();
 		int offset = 0;
 		charPosition = new char[charPosition.length][charPosition[0].length];
 		for(int i = 0; i < textCharArray.length; i++){
@@ -292,7 +301,16 @@ public class TextArea extends BasicUserInterface {
 	}
 	
 	public void setText(String text){
-		this.text = text;
+		this.text.setLength(0);
+		this.text.append(text);
+		cpos = this.text.length();
+		
+		posX = posY = 0;
+		// Find the offset!
+		int tempY = (int) (text.length() / (charPosition[0].length - 1));
+		int offset = text.length() - (tempY * (charPosition[0].length - 1));
+		posX = offset;
+		posY = tempY;
 	}
 	
 	public void setEditable(boolean editable){
@@ -304,7 +322,7 @@ public class TextArea extends BasicUserInterface {
 	}
 	
 	public String getText(){
-		return text;
+		return text.toString();
 	}
 	
 	public int getMaxCharacters(){

@@ -13,7 +13,7 @@ public class TextField extends BasicUserInterface{
 	
 	private long repeatTimer;
 	
-	private String text;
+	private StringBuffer text;
 	//private String wrappedText;
 	
 	private boolean isEditable;
@@ -29,8 +29,8 @@ public class TextField extends BasicUserInterface{
 	
 	public TextField(GameContainer gc, float x, float y, float w, float h) {
 		super(gc, x, y, w, h);
-	
-		setText("");
+		
+		text = new StringBuffer();
 		setMaxCharacters(32);
 		setEditable(true);
 		//setWordWrap(false);
@@ -38,11 +38,15 @@ public class TextField extends BasicUserInterface{
 	
 	private void paste(){
 		String copy = Sys.getClipboard();
-		text = text.substring(0, cPosition) + copy + text.substring(cPosition, text.length());
+		//text = text.substring(0, cPosition) + copy + text.substring(cPosition, text.length());
+		text.insert(cPosition, copy);
 		cPosition = cPosition + copy.length();
 		
 		if(text.length() > maxChars){
-			text = text.substring(maxChars);
+			//text = text.substring(maxChars);
+			String temp = text.substring(maxChars);
+			text.setLength(0);
+			text.append(temp);
 			cPosition = maxChars;
 		}
 	}
@@ -74,16 +78,19 @@ public class TextField extends BasicUserInterface{
 			if(key == Input.KEY_BACK){
 				if(cPosition == text.length()){
 					if(cPosition > 0){
-						text = text.substring(0, cPosition - 1);
+						//text = text.substring(0, cPosition - 1);
+						text.deleteCharAt(cPosition - 1);
 						cPosition = text.length();
 					}
 				}else if(cPosition != text.length()){
-					text = text.substring(0, cPosition - 1) + text.substring(cPosition, text.length());
+					//text = text.substring(0, cPosition - 1) + text.substring(cPosition, text.length());
+					text.deleteCharAt(cPosition - 1);
 					cPosition--;
 				}
 			}else if(key == Input.KEY_DELETE){
 				if(cPosition != text.length()){
-					text = text.substring(0, cPosition) + text.substring(cPosition + 1, text.length());
+					//text = text.substring(0, cPosition) + text.substring(cPosition + 1, text.length());
+					text.deleteCharAt(cPosition);
 				}
 			}else if(key == Input.KEY_LEFT){
 				if(cPosition > 0){
@@ -96,14 +103,16 @@ public class TextField extends BasicUserInterface{
 			}else{
 				if(text.length() < maxChars){
 					if(Character.isLetterOrDigit(c) || CharacterUtil.isPunctuation(c)){
-						text = text.substring(0, cPosition) + c + text.substring(cPosition, text.length());
+						//text = text.substring(0, cPosition) + c + text.substring(cPosition, text.length());
+						text.insert(cPosition, c);
 						cPosition++;
 					}else if(key == Input.KEY_SPACE){
-						if(cPosition == text.length()){
-							text += " ";
-						}else{
-							text = text.substring(0, cPosition) + " " + text.substring(cPosition, text.length());
-						}
+						//if(cPosition == text.length()){
+							//text += " ";
+							text.insert(cPosition, ' ');
+						/*}else{
+							//text = text.substring(0, cPosition) + " " + text.substring(cPosition, text.length());
+						}*/
 						
 						cPosition++;
 					}
@@ -127,37 +136,34 @@ public class TextField extends BasicUserInterface{
 		}
 		
 		g.setColor(DEFAULT_TEXT);
-		/*if(wordWrap){
-			wordWrap(g.getFont());
-		    g.drawString(text, getX() + 1, getY() + 1);
-		}else{*/
-			Rectangle oldClip = g.getWorldClip();
-			g.setWorldClip(getX(), getY(), getWidth(), getHeight());
-			String temp = "";
-			for(int i = 0; i < text.length(); i++){
-				char c = text.charAt(i);
-				if(!Character.isLetterOrDigit(c)){
-					temp += "_";
-				}else{
-					temp += c;
-				}
+		Rectangle oldClip = g.getWorldClip();
+		g.setWorldClip(getX(), getY(), getWidth(), getHeight());
+		StringBuffer temp = new StringBuffer();
+		for(int i = 0; i < text.length(); i++){
+			char c = text.charAt(i);
+			if(!Character.isLetterOrDigit(c)){
+				temp.append("_");
+			}else{
+				temp.append(c);
 			}
-			
-			int cpos = g.getFont().getWidth(temp.substring(0, cPosition));
-			int tx = 0;
-			
-			if(cpos > getWidth()){
-				tx = (int) getWidth() - cpos - g.getFont().getWidth("|");
-			}
-				
-			g.translate(tx, 0);
-			g.drawString(text, getX() + 1, getY() + 1);
+		}
 		
-			if(isKeyFocused() && isEditable)
-				g.drawString("|", getX() + cpos - 5, getY() + 1);
-			g.translate(-tx, 0);
+		System.out.println(temp.length());
+		int cpos = font.getWidth(temp.substring(0, cPosition));
+		int tx = 0;
+		
+		if(cpos > getWidth()){
+			tx = (int) getWidth() - cpos - font.getWidth("|");
+		}
 			
-			g.setWorldClip(oldClip);
+		g.translate(tx, 0);
+		g.drawString(getText(), getX() + 1, getY() + 1);
+	
+		if(isKeyFocused() && isEditable)
+			g.drawString("|", getX() + cpos - 5, getY() + 1);
+		g.translate(-tx, 0);
+		
+		g.setWorldClip(oldClip);
 		//}
 	}/*
 	
@@ -242,7 +248,9 @@ public class TextField extends BasicUserInterface{
 	}*/
 	
 	public void setText(String text){
-		this.text = text;
+		this.text.setLength(0);
+		this.text.append(text);
+		cPosition = this.text.length();
 	}
 	
 	public void setEditable(boolean editable){
@@ -258,7 +266,7 @@ public class TextField extends BasicUserInterface{
 	}
 	
 	public String getText(){
-		return text;
+		return text.toString();
 	}
 	
 	/*public String getWrappedText(){

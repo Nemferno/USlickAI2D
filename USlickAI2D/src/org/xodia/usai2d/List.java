@@ -31,6 +31,7 @@ public class List extends BasicUserInterface {
 		if(numOfChilds < capacity){
 			Label l = new Label(container, item, 0, 0, p.getWidth(), getHeight() * 0.25f);
 			l.setToolTip(desc);
+			l.setVisible(false);
 			p.addChild(l);
 			capacity++;
 		}

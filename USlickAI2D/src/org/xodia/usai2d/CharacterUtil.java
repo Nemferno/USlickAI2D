@@ -12,7 +12,9 @@ public class CharacterUtil {
 			c == '!' ||
 			c == '?' ||
 			c == '/' ||
-			c == '\\'){
+			c == '\\' ||
+			c == '\'' ||
+			c == '\"'){
 			return true;
 		}else{
 			return false;

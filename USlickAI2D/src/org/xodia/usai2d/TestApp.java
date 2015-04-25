@@ -31,10 +31,11 @@ public class TestApp extends BasicUIGame{
 		TextArea area = new TextArea(gc, 100, 100, 200, 200);
 		addUI(area);
 		registerKeyUI(area);
+		area.setText("HELLO WORLD I AM HERE TO ANNOUNCE YOUR ARRIVAL TO BUENOS AIRES YEAH YEAH YEAH!");
 	}
 
 	public static void main(String[] args) throws SlickException{
-		AppGameContainer app = new AppGameContainer(new TestApp("Test UI Game"));
+		AppGameContainer app = new AppGameContainer(new TestApp("Test UI Game"), 800, 600, false);
 		app.start();
 	}
 	

@@ -4,7 +4,7 @@ package org.xodia.usai2d;
 public class ToolTip extends TextArea {
 
 	private ToolTip(IUserInterface parent, String text) {
-		super(parent.getContainer(), 0, 0, 100, 100);
+		super(parent.getContainer(), parent.getX(), parent.getY(), 100, 100);
 		
 		String[] lines = text.split("\n");
 		int count = 0;

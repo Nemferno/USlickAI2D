@@ -12,7 +12,6 @@ import org.xodia.usai2d.layout.BorderLayout;
 import org.xodia.usai2d.layout.BorderLayout.Direction;
 import org.xodia.usai2d.layout.ILayout;
 
-// TODO Add in MouseExited
 public class BasicUserInterface implements IUserInterface {
 
 	protected List<IUserInterface> children;
@@ -26,7 +25,6 @@ public class BasicUserInterface implements IUserInterface {
 	private float x, y;
 	private float width, height;
 	private boolean isKeyFocused;
-	private boolean isMouseFocused;
 	private boolean isDisabled;
 	private boolean isVisible;
 	
@@ -84,6 +82,10 @@ public class BasicUserInterface implements IUserInterface {
 
 	public void setVisible(boolean visible) {
 		this.isVisible = visible;
+		
+		for(IUserInterface ui : children){
+			ui.setVisible(visible);
+		}
 	}
 
 	public void setKeyFocused(boolean focus) {
@@ -102,14 +104,6 @@ public class BasicUserInterface implements IUserInterface {
 		}
 	}
 	
-	public void setMouseFocused(boolean focus){
-		this.isMouseFocused = focus;
-		
-		for(IUserInterface ui : children){
-			ui.setMouseFocused(focus);
-		}
-	}
-
 	public void addChild(IUserInterface ui) {
 		ui.setParent(this);
 		ui.setPosition(getX() + ui.getX(), getY() + ui.getY());
@@ -163,10 +157,6 @@ public class BasicUserInterface implements IUserInterface {
 
 	public boolean isKeyFocused() {
 		return isKeyFocused;
-	}
-	
-	public boolean isMouseFocused(){
-		return isMouseFocused;
 	}
 	
 	public boolean isDisabled(){
@@ -355,21 +345,6 @@ public class BasicUserInterface implements IUserInterface {
 		}
 	}
 	
-	public void mouseExited(int type){
-		if(!isDisabled && isVisible){
-			Iterator<IUserInterface> it = children.iterator();
-			while(it.hasNext()){
-				IUserInterface ui = it.next();
-				if(ui.isVisible()){
-					if(x >= ui.getX() && x <= ui.getX() + ui.getWidth() && 
-						y >= ui.getY() && y <= ui.getY() + ui.getHeight()){
-						ui.mouseExited(type);
-					}
-				}
-			}
-		}
-	}
-
 	public void keyPressed(int key, char c) {
 		if(!isDisabled && isVisible && isKeyFocused){
 			Iterator<IUserInterface> it = children.iterator();

@@ -75,12 +75,6 @@ public interface IUserInterface {
 	 */
 	void setKeyFocused(boolean focus);
 	/**
-	 * Is the user interface's mouse inputs focused and listened to?
-	 * @param focus
-	 * Is the user interface being focused
-	 */
-	void setMouseFocused(boolean focus);
-	/**
 	 * Assigns the Image to the Background Image
 	 * @param background
 	 * The image for the background of the UI
@@ -118,12 +112,6 @@ public interface IUserInterface {
 	 * Is the interface focused?
 	 */
 	boolean isKeyFocused();
-	/**
-	 * Returns if the interface is focused
-	 * @return
-	 * Is the interface focused?
-	 */
-	boolean isMouseFocused();
 	/**
 	 * Returns if the user interface is disabled
 	 * @return
@@ -215,7 +203,6 @@ public interface IUserInterface {
 	void mouseDragged(int oldx, int oldy, int newx, int newy);
 	void mousePressed(int button, int x, int y);
 	void mouseReleased(int button, int x, int y);
-	void mouseExited(int type);
 	void keyPressed(int key, char c);
 	void keyReleased(int key, char c);
 }

@@ -32,15 +32,15 @@ public class SelectionList extends BasicUserInterface {
 		
 		float tempH = 0;
 		
-		if(capacity * (h * 0.25f) < h * 2.5f){
-			tempH = capacity * (h * 0.25f);
+		if(capacity * font.getHeight("A") < h * 2.5f){
+			tempH = capacity * font.getHeight("A");
 		}else{
 			tempH = h * 2.5f;
 		}
 		
 		c = new Container(gc, 0, h, w, tempH);
 		c.setVisible(false);
-		p = new Panel(gc, w, capacity * (h * 0.25f));
+		p = new Panel(gc, w, capacity * font.getHeight("A"));
 		p.setLayout(new VerticalLayout());
 		c.setContent(p);
 		expandButton = new Button(gc, "Select", 0, 0, w, h, new OnClickListener(){
@@ -72,7 +72,7 @@ public class SelectionList extends BasicUserInterface {
 	
 	public void addItem(final String item, String desc){
 		if(numOfChilds < capacity){
-			Button b = new Button(container, item, 0, 0, p.getWidth(), getHeight() * 0.25f, new OnClickListener(){
+			Button b = new Button(container, item, 0, 0, p.getWidth(), font.getHeight("A"), new OnClickListener(){
 				public void onClick(int button){
 					sString = item;
 					expandButton.setText(item);
@@ -87,6 +87,7 @@ public class SelectionList extends BasicUserInterface {
 					addChild(expandButton);
 				}
 			});
+			b.setVisible(false);
 			b.setToolTip(desc);
 			p.addChild(b);
 			numOfChilds++;

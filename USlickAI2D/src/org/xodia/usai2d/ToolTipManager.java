@@ -39,8 +39,6 @@ public class ToolTipManager {
 							visibleTool.setVisible(false);
 							visibleTool = toolList.get(ui);
 							visibleTool.setVisible(true);
-						}else{
-							visibleTool.setPosition(newx, newy);
 						}
 					}else{
 						visibleTool = toolList.get(ui);
@@ -51,6 +49,19 @@ public class ToolTipManager {
 						visibleTool.setVisible(false);
 						visibleTool = null;
 					}
+				}
+				
+				if(visibleTool != null){
+					if(newx + visibleTool.getWidth() >= visibleTool.getContainer().getWidth()){
+						visibleTool.setPosition(newx - visibleTool.getWidth(), newy);
+					}else{
+						visibleTool.setPosition(newx, newy);
+					}
+				}
+			}else{
+				if(visibleTool == toolList.get(ui)){
+					visibleTool.setVisible(false);
+					visibleTool = null;
 				}
 			}
 		}
