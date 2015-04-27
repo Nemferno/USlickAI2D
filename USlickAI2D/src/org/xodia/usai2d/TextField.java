@@ -148,7 +148,7 @@ public class TextField extends BasicUserInterface{
 			}
 		}
 		
-		System.out.println(temp.length());
+		//System.out.println(temp.length());
 		int cpos = font.getWidth(temp.substring(0, cPosition));
 		int tx = 0;
 		
