@@ -32,7 +32,7 @@ public class SelectionList extends BasicUserInterface {
 		
 		float tempH = 0;
 		
-		if(capacity * font.getHeight("A") < h * 2.5f){
+		if(capacity * font.getHeight("A") <= h * 2.5f){
 			tempH = capacity * font.getHeight("A");
 		}else{
 			tempH = h * 2.5f;
@@ -88,7 +88,8 @@ public class SelectionList extends BasicUserInterface {
 				}
 			});
 			b.setVisible(false);
-			b.setToolTip(desc);
+			if(desc != null)
+				b.setToolTip(desc);
 			p.addChild(b);
 			numOfChilds++;
 		}

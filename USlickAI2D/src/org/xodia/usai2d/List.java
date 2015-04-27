@@ -21,7 +21,7 @@ public class List extends BasicUserInterface {
 		this.capacity = capacity;
 		
 		c = new Container(gc, 0, 0, w, h);
-		p = new Panel(gc, w, capacity * (h * 0.25f));
+		p = new Panel(gc, w, capacity * font.getHeight("A"));
 		p.setLayout(new VerticalLayout());
 		c.setContent(p);
 		addChild(c);
@@ -29,9 +29,11 @@ public class List extends BasicUserInterface {
 	
 	public void addItem(final String item, String desc){
 		if(numOfChilds < capacity){
-			Label l = new Label(container, item, 0, 0, p.getWidth(), getHeight() * 0.25f);
-			l.setToolTip(desc);
-			l.setVisible(false);
+			Label l = new Label(container, item, 0, 0, p.getWidth(), font.getHeight("A"));
+			
+			if(desc != null)
+				l.setToolTip(desc);
+			
 			p.addChild(l);
 			capacity++;
 		}
