@@ -35,7 +35,7 @@ public class List extends BasicUserInterface {
 				l.setToolTip(desc);
 			
 			p.addChild(l);
-			capacity++;
+			numOfChilds++;
 		}
 	}
 	
