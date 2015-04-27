@@ -141,12 +141,21 @@ public class Container extends BasicUserInterface {
 	}
 	
 	public void mousePressed(int button, int x, int y) {
+		// Check if the scrollers have been touched...
 		if(vScroller != null){
-			vScroller.mousePressed(button, x, y);
+			if(x >= vScroller.getX() && x <= vScroller.getX() + vScroller.getWidth() &&
+				y >= vScroller.getY() && y <= vScroller.getY() + vScroller.getHeight()){
+				vScroller.mousePressed(button, x, y);
+				return;
+			}
 		}
 		
 		if(hScroller != null){
-			hScroller.mousePressed(button, x, y);
+			if(x >= hScroller.getX() && x <= hScroller.getX() + hScroller.getWidth() &&
+				y >= hScroller.getY() && y <= hScroller.getY() + hScroller.getHeight()){
+				hScroller.mousePressed(button, x, y);
+				return;
+			}
 		}
 		
 		super.mousePressed(button, 
