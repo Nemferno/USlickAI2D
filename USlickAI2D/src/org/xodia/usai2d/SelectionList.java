@@ -95,6 +95,7 @@ public class SelectionList extends BasicUserInterface {
 					addChild(expandButton);
 				}
 			});
+			b.setVisible(false);
 			if(desc != null)
 				b.setToolTip(desc);
 			p.addChild(b);
