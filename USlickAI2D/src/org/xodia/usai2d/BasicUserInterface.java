@@ -107,6 +107,8 @@ public class BasicUserInterface implements IUserInterface {
 	public void addChild(IUserInterface ui) {
 		ui.setParent(this);
 		ui.setPosition(getX() + ui.getX(), getY() + ui.getY());
+		ui.setVisible(isVisible());
+		ui.setDisabled(isDisabled());
 		children.add(ui);
 		
 		if(layout != null)
