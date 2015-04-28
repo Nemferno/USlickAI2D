@@ -70,6 +70,14 @@ public class SelectionList extends BasicUserInterface {
 		addChild(c);
 	}
 	
+	public void addDivider(String name){
+		if(numOfChilds < capacity){
+			Label l = new Label(container, name, 0, 0, p.getWidth(), font.getHeight("A"));
+			p.addChild(l);
+			numOfChilds++;
+		}
+	}
+	
 	public void addItem(final String item, String desc){
 		if(numOfChilds < capacity){
 			Button b = new Button(container, item, 0, 0, p.getWidth(), font.getHeight("A"), new OnClickListener(){
@@ -87,7 +95,6 @@ public class SelectionList extends BasicUserInterface {
 					addChild(expandButton);
 				}
 			});
-			b.setVisible(false);
 			if(desc != null)
 				b.setToolTip(desc);
 			p.addChild(b);
