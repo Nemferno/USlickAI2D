@@ -36,6 +36,10 @@ public class List extends BasicUserInterface {
 		addChild(c);
 	}
 	
+	public void setOnChangedListener(OnChangedListener listener){
+		this.listener = listener;
+	}
+	
 	public void addDivider(String item){
 		if(numOfChilds < capacity){
 			Label l = new Label(container, item, 0, 0, p.getWidth(), font.getHeight("A"));
