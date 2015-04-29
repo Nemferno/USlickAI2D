@@ -60,10 +60,6 @@ public class List extends BasicUserInterface {
 		}
 	}
 	
-	public void setOnClickListener(OnChangedListener listener){
-		this.listener = listener;
-	}
-	
 	public void addItem(String item){
 		addItem(item, null);
 	}
