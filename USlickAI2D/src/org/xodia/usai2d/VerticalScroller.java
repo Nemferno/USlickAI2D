@@ -22,9 +22,8 @@ public class VerticalScroller extends BasicUserInterface implements IScroller{
 		else if(v > 1)
 			v = 1;
 		
-		float newy = v * (getHeight() - h.getHeight());
-		float y = -newy + getY();
-		h.setPosition(h.getX(), getY() + -y);
+		float newy = getY() + (v * (getHeight() - h.getHeight()));
+		h.setPosition(h.getX(), newy);
 	}
 	
 	public void setContentHeight(float h){
@@ -94,10 +93,10 @@ public class VerticalScroller extends BasicUserInterface implements IScroller{
 			}else if(y > h.getY() + h.getHeight()){
 				setValue(getValue() + 0.05f);
 			}
+		}else{
+			pressedY = y - h.getY();
+			canDrag = true;
 		}
-		
-		pressedY = y - h.getY();
-		canDrag = true;
 	}
 	
 }
