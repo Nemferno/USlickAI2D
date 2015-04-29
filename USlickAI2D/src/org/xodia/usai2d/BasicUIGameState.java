@@ -57,7 +57,8 @@ public abstract class BasicUIGameState extends BasicGameState {
 		preRender(gc, g);
 		
 		for(IUserInterface ui : uiList){
-			ui.render(g);
+			if(ui.isVisible())
+				ui.render(g);
 		}
 		
 		Iterator<Dialog> it = dManager.getDialogs();
