@@ -1,5 +1,6 @@
 package org.xodia.usai2d;
 
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
@@ -44,6 +45,8 @@ public class Button extends BasicUserInterface {
 		super.render(g);
 		
 		g.setColor(DEFAULT_TEXT);
+		Font oldFont = g.getFont();
+		g.setFont(font);
 		switch(textOption){
 		case CENTER:
 			g.drawString(text, getX() + getWidth() / 2 - g.getFont().getWidth(text) / 2, getY() + getHeight() / 2 - g.getFont().getHeight(text) / 2);
@@ -55,6 +58,7 @@ public class Button extends BasicUserInterface {
 			g.drawString(text, getX() + getWidth() - g.getFont().getWidth(text), getY() + getHeight() / 2 - g.getFont().getHeight(text) / 2);
 			break;
 		}
+		g.setFont(oldFont);
 	}
 	
 	public void setOnClickListener(OnClickListener l){

@@ -1,6 +1,7 @@
 package org.xodia.usai2d;
 
 import org.lwjgl.Sys;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -157,10 +158,15 @@ public class TextField extends BasicUserInterface{
 		}
 			
 		g.translate(tx, 0);
+		
+		Font oldFont = g.getFont();
+		g.setFont(font);
 		g.drawString(getText(), getX() + 1, getY() + 1);
-	
+		
 		if(isKeyFocused() && isEditable)
 			g.drawString("|", getX() + cpos - 5, getY() + 1);
+		g.setFont(oldFont);
+		
 		g.translate(-tx, 0);
 		
 		g.setWorldClip(oldClip);

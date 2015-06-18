@@ -1,6 +1,7 @@
 package org.xodia.usai2d;
 
 import org.lwjgl.Sys;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -281,6 +282,9 @@ public class TextArea extends BasicUserInterface {
 			g.translate(0, ty);
 			g.setColor(IUserInterface.DEFAULT_TEXT);
 			
+			Font oldFont = g.getFont();
+			g.setFont(font);
+			
 			int textWidth = g.getFont().getWidth("A");
 			int textHeight = g.getFont().getHeight("A");
 			for(int y = 0; y < charPosition.length; y++){
@@ -294,6 +298,8 @@ public class TextArea extends BasicUserInterface {
 			if(isKeyFocused() && isEditable){
 				g.drawString("|", getX() + cposX - (g.getFont().getWidth("A") / 2), getY() + cposY);
 			}
+			
+			g.setFont(oldFont);
 			
 			g.translate(0, -ty);
 			g.setWorldClip(oldClip);
