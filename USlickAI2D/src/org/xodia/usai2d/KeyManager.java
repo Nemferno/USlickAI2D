@@ -14,7 +14,7 @@ public class KeyManager {
 	private List<IUserInterface> keyList;
 	private boolean isKeyFocused;
 	
-	private KeyManager(){ keyList = new ArrayList<>(); }
+	private KeyManager(){ keyList = new ArrayList<IUserInterface>(); }
 	private static class Instance { public static KeyManager instance = new KeyManager(); }
 	
 	public void keyPressed(int key, char c){

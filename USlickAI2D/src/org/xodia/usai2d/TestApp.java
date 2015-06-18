@@ -28,14 +28,18 @@ public class TestApp extends BasicUIGame{
 	}
 
 	public void init(GameContainer gc) throws SlickException {
-		TextArea area = new TextArea(gc, 100, 100, 200, 200);
-		addUI(area);
-		registerKeyUI(area);
-		area.setText("HELLO WORLD I AM HERE TO ANNOUNCE YOUR ARRIVAL TO BUENOS AIRES YEAH YEAH YEAH!");
+		SelectionList list = new SelectionList(gc, 100, 100, 100, 25, 8);
+		list.addDivider("DIVIDER");
+		list.addItem("Hello");
+		list.addItem("HELLO");
+		list.addDivider("Divider 2");
+		list.addItem("HELLO");
+		list.addItem("HELLO");
+		addUI(list);
 	}
 
 	public static void main(String[] args) throws SlickException{
-		AppGameContainer app = new AppGameContainer(new TestApp("Test UI Game"), 800, 600, false);
+		AppGameContainer app = new AppGameContainer(new TestStateApp("Test UI Game"), 800, 600, false);
 		app.start();
 	}
 	
@@ -59,7 +63,7 @@ class TestStateApp extends StateBasedGame {
 
 		public void init(GameContainer gc, StateBasedGame arg1)
 				throws SlickException {
-			final Dialog dialog = new Dialog(gc, 250, 250, true, false);
+			final Dialog dialog = new Dialog(gc, 250, 250, false, false);
 			dialog.setLayout(new BorderLayout());
 			
 			final TextField edit = new TextField(gc, 0, 0, 0, 0);
@@ -72,9 +76,12 @@ class TestStateApp extends StateBasedGame {
 				public void onClick(int button) {
 					if(!edit.getText().trim().equals("")){
 						if(edit.getText().contains(" ")){
+							dialog.dispose();
 						}else{
+							dialog.dispose();
 						}
 					}else{
+						dialog.dispose();
 					}
 				}
 			});

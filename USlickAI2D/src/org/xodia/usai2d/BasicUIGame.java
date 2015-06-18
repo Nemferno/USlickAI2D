@@ -24,7 +24,7 @@ public abstract class BasicUIGame extends BasicGame {
 	public BasicUIGame(String title){
 		super(title);
 		
-		uiList = new ArrayList<>();
+		uiList = new ArrayList<IUserInterface>();
 		kManager = KeyManager.getInstance();
 		dManager = DialogManager.getInstance();
 		tManager = ToolTipManager.getInstance();

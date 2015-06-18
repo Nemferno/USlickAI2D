@@ -35,7 +35,7 @@ public class BasicUserInterface implements IUserInterface {
 	public BasicUserInterface(GameContainer gc, float x, float y, float w, float h){
 		container = gc;
 		font = gc.getDefaultFont();
-		children = new CopyOnWriteArrayList<>();
+		children = new CopyOnWriteArrayList<IUserInterface>();
 		setPosition(x,y);
 		setSize(w, h);
 		setVisible(true);

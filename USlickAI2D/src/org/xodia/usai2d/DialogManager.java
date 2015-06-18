@@ -19,8 +19,8 @@ public class DialogManager {
 	private boolean isFocused;
 	
 	private DialogManager(){
-		dialogList = new CopyOnWriteArrayList<>();
-		modalList = new CopyOnWriteArrayList<>();
+		dialogList = new CopyOnWriteArrayList<Dialog>();
+		modalList = new CopyOnWriteArrayList<Dialog>();
 	}
 	private static final class Instance { public static final DialogManager instance = new DialogManager();  }
 	

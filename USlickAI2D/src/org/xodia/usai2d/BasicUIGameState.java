@@ -26,7 +26,7 @@ public abstract class BasicUIGameState extends BasicGameState {
 	public BasicUIGameState(int id){
 		this.id = id;
 		
-		uiList = new ArrayList<>();
+		uiList = new ArrayList<IUserInterface>();
 		kManager = KeyManager.getInstance();
 		dManager = DialogManager.getInstance();
 		tManager = ToolTipManager.getInstance();

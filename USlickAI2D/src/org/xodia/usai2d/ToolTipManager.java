@@ -10,7 +10,7 @@ public class ToolTipManager {
 	
 	private static class Instance { public static final ToolTipManager instance = new ToolTipManager(); }
 	private ToolTipManager(){
-		toolList = new ConcurrentHashMap<>();
+		toolList = new ConcurrentHashMap<IUserInterface, ToolTip>();
 	}
 	
 	public void addToolTip(IUserInterface parent, ToolTip tool){

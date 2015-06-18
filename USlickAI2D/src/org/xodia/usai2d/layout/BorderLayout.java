@@ -22,7 +22,7 @@ public class BorderLayout implements ILayout {
 	public BorderLayout(int padding){
 		this.padding = padding;
 		
-		borderList = new ConcurrentHashMap<>(6);
+		borderList = new ConcurrentHashMap<IUserInterface, Direction>(6);
 	}
 	
 	public void addBorder(IUserInterface ui, Direction d){
