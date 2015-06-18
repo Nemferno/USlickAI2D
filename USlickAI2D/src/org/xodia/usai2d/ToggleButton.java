@@ -1,12 +1,14 @@
 package org.xodia.usai2d;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 public class ToggleButton extends Button {
 
 	private boolean isToggled;
+	
+	protected Image toggledBackground;
 	
 	public ToggleButton(GameContainer gc, float x, float y, float w, float h) {
 		super(gc, x, y, w, h);
@@ -22,10 +24,24 @@ public class ToggleButton extends Button {
 	
 	public void render(Graphics g) {
 		if(isVisible()){
-			if(!isToggled){
-				g.setColor(DEFAULT_BACKGROUND);
+			if(!(toggledBackground != null && backgroundImage != null)){
+				if(!isToggled){
+					if(backgroundColor == null)
+						g.setColor(DEFAULT_BACKGROUND);
+					else
+						g.setColor(backgroundColor);
+				}else{
+					if(backgroundColor == null)
+						g.setColor(DEFAULT_BACKGROUND.darker());
+					else
+						g.setColor(backgroundColor.darker());
+				}
 			}else{
-				g.setColor(Color.darkGray);
+				if(!isToggled){
+					g.drawImage(backgroundImage, getX(), getY());
+				}else{
+					g.drawImage(toggledBackground, getX(), getY());
+				}
 			}
 			
 			g.fillRect(getX(), getY(), getWidth(), getHeight());
@@ -56,6 +72,14 @@ public class ToggleButton extends Button {
 		}
 		
 		super.mousePressed(button, x, y);
+	}
+	
+	public void setToggledBackground(Image i){
+		toggledBackground = i;
+		
+		if(getWidth() != toggledBackground.getWidth() || getHeight() != toggledBackground.getHeight()){
+			toggledBackground = i.getScaledCopy((int) getWidth(), (int) getHeight());
+		}
 	}
 	
 	public void setToggled(boolean toggle){

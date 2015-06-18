@@ -82,6 +82,13 @@ public interface IUserInterface {
 	void setBackgroundImage(Image image);
 	
 	/**
+	 * Assigns a Color to the background
+	 * @param color
+	 * The color of the background
+	 */
+	void setColorBackground(Color color);
+	
+	/**
 	 * Adds the child to the user interface. The child's x & y position is set by adding it upon
 	 * the origin, the parent's x & y positions.
 	 * @param ui
@@ -130,6 +137,12 @@ public interface IUserInterface {
 	 * Parent of the user interface
 	 */
 	IUserInterface getParent();
+	/**
+	 * Returns the color of the background
+	 * @return
+	 * null if color is not set
+	 */
+	Color getBackgroundColor();
 	/**
 	 * Returns the game container
 	 * @return

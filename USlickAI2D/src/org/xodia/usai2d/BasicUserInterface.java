@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -19,7 +20,8 @@ public class BasicUserInterface implements IUserInterface {
 	private IUserInterface parent;
 	private ILayout layout;
 	
-	private Image backgroundImage;
+	protected Image backgroundImage;
+	protected Color backgroundColor;
 	protected Font font;
 	
 	private float x, y;
@@ -59,13 +61,17 @@ public class BasicUserInterface implements IUserInterface {
 		
 		revalidateSize(oldW, oldH);
 	}
-
+	
 	public void setParent(IUserInterface parent) {
 		this.parent = parent;
 	}
 	
 	public void setLayout(ILayout layout){
 		this.layout = layout;
+	}
+	
+	public void setColorBackground(Color color){
+		backgroundColor = color;
 	}
 	
 	/**
@@ -155,6 +161,10 @@ public class BasicUserInterface implements IUserInterface {
 		return layout;
 	}
 
+	public Color getBackgroundColor(){
+		return backgroundColor;
+	}
+	
 	public boolean isKeyFocused() {
 		return isKeyFocused;
 	}
@@ -259,7 +269,10 @@ public class BasicUserInterface implements IUserInterface {
 	public void render(Graphics g) {
 		if(isVisible){
 			if(!isDisabled){
-				g.setColor(DEFAULT_BACKGROUND);
+				if(backgroundColor == null)
+					g.setColor(DEFAULT_BACKGROUND);
+				else
+					g.setColor(backgroundColor);
 			}
 				
 			if(backgroundImage != null){

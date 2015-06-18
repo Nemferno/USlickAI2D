@@ -25,7 +25,15 @@ public class Container extends BasicUserInterface {
 	
 	public void render(Graphics g){
 		if(isVisible()){
-			g.setColor(DEFAULT_BACKGROUND);
+			if(backgroundImage == null){
+				if(backgroundColor == null)
+					g.setColor(DEFAULT_BACKGROUND);
+				else
+					g.setColor(backgroundColor);
+			}else{
+				g.drawImage(backgroundImage, getX(), getY());
+			}
+			
 			g.fillRect(getX(), getY(), getWidth(), getHeight());
 			g.setColor(DEFAULT_BORDER);
 			g.drawRect(getX(), getY(), getWidth(), getHeight());
