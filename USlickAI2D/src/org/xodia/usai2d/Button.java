@@ -30,7 +30,7 @@ public class Button extends BasicUserInterface {
 		ToolTip.createToolTip(this, desc);
 	}
 	
-	public void setTestOption(TextOption option){
+	public void setTextOption(TextOption option){
 		this.textOption = option;
 	}
 	
