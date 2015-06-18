@@ -38,6 +38,12 @@ public class Dialog extends BasicUserInterface {
 	private Rectangle draggableBounds;
 	private Rectangle draggedBounds;
 	
+	private DialogListener listener;
+	
+	public static interface DialogListener {
+		void onExit();
+	}
+	
 	public Dialog(GameContainer gc, float w, float h){
 		this(gc, "", w, h);
 	}
@@ -111,6 +117,10 @@ public class Dialog extends BasicUserInterface {
 		}
 	}
 	
+	public void setDialogListener(DialogListener listener){
+		this.listener = listener;
+	}
+	
 	public void setTitle(String title){
 		this.title = title;
 	}
@@ -126,6 +136,10 @@ public class Dialog extends BasicUserInterface {
 	public void dispose(){
 		if(!isModal())
 			DialogManager.getInstance().removeDialog(this);
+	}
+	
+	public DialogListener getDialogListener(){
+		return listener;
 	}
 	
 	public String getTitle(){
