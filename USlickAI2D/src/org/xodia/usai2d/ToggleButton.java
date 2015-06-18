@@ -21,34 +21,39 @@ public class ToggleButton extends Button {
 	}
 	
 	public void render(Graphics g) {
-		if(!isToggled){
-			g.setColor(DEFAULT_BACKGROUND);
-		}else{
-			g.setColor(Color.darkGray);
-		}
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
-		g.setColor(DEFAULT_BORDER);
-		g.drawRect(getX(), getY(), getWidth(), getHeight());
-		
-		g.setColor(DEFAULT_TEXT);
-		switch(getTextOption()){
-		case CENTER:
-			g.drawString(getText(), getX() + getWidth() / 2 - g.getFont().getWidth(getText()) / 2, getY() + getHeight() / 2 - g.getFont().getHeight(getText()) / 2);
-			break;
-		case LEFT:
-			g.drawString(getText(), getX(), getY() + getHeight() / 2 - g.getFont().getHeight(getText()) / 2);
-			break;
-		case RIGHT:
-			g.drawString(getText(), getX() + getWidth() - g.getFont().getWidth(getText()), getY() + getHeight() / 2 - g.getFont().getHeight(getText()) / 2);
-			break;
+		if(isVisible()){
+			if(!isToggled){
+				g.setColor(DEFAULT_BACKGROUND);
+			}else{
+				g.setColor(Color.darkGray);
+			}
+			
+			g.fillRect(getX(), getY(), getWidth(), getHeight());
+			g.setColor(DEFAULT_BORDER);
+			g.drawRect(getX(), getY(), getWidth(), getHeight());
+			
+			g.setColor(DEFAULT_TEXT);
+			switch(getTextOption()){
+			case CENTER:
+				g.drawString(getText(), getX() + getWidth() / 2 - g.getFont().getWidth(getText()) / 2, getY() + getHeight() / 2 - g.getFont().getHeight(getText()) / 2);
+				break;
+			case LEFT:
+				g.drawString(getText(), getX(), getY() + getHeight() / 2 - g.getFont().getHeight(getText()) / 2);
+				break;
+			case RIGHT:
+				g.drawString(getText(), getX() + getWidth() - g.getFont().getWidth(getText()), getY() + getHeight() / 2 - g.getFont().getHeight(getText()) / 2);
+				break;
+			}
 		}
 	}
 	
 	public void mousePressed(int button, int x, int y) {
-		if(!isToggled)
-			isToggled = true;
-		else
-			isToggled = false;
+		if(!isDisabled() && isVisible()){
+			if(!isToggled)
+				isToggled = true;
+			else
+				isToggled = false;
+		}
 		
 		super.mousePressed(button, x, y);
 	}

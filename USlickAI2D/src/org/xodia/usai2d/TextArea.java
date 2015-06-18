@@ -73,7 +73,7 @@ public class TextArea extends BasicUserInterface {
 	public void keyPressed(int key, char c) {
 		super.keyPressed(key, c);
 		
-		if(isEditable){
+		if(isEditable && !isDisabled() && isVisible()){
 			if(key != -1){
 				if(key == Input.KEY_V && (container.getInput().isKeyDown(Input.KEY_LCONTROL) || container.getInput().isKeyDown(Input.KEY_RCONTROL))){
 					paste();
@@ -252,57 +252,59 @@ public class TextArea extends BasicUserInterface {
 		public void render(Graphics g) {
 			super.render(g);
 			
-			if(lastKey != -1){
-				if(container.getInput().isKeyDown(lastKey)){
-					if(repeatTimer < System.currentTimeMillis()){
-						repeatTimer = System.currentTimeMillis() + KEY_REPEAT_INTERVAL;
-						TextArea.this.keyPressed(lastKey, lastChar);
+			if(isVisible()){
+				if(lastKey != -1){
+					if(container.getInput().isKeyDown(lastKey)){
+						if(repeatTimer < System.currentTimeMillis()){
+							repeatTimer = System.currentTimeMillis() + KEY_REPEAT_INTERVAL;
+							TextArea.this.keyPressed(lastKey, lastChar);
+						}
+					}else{
+						lastKey = -1;
 					}
-				}else{
-					lastKey = -1;
 				}
-			}
-			
-			int offset = revalidateCharacters();
-			if(offset != 0){
-				resizeCanvas(offset);
-			}
-			
-			Rectangle oldClip = g.getWorldClip();
-			g.setWorldClip(getX() - 1, getY() - 1, getWidth() + 1, getHeight() + 1);
-			
-			int cposX = g.getFont().getWidth("A") * posX;
-			int cposY = g.getFont().getHeight("A") * posY;
-			int ty = 0;
-			
-			if(cposY > getHeight()){
-				ty = (int) getHeight() - cposY - g.getFont().getHeight("A");
-			}
-			
-			g.translate(0, ty);
-			g.setColor(IUserInterface.DEFAULT_TEXT);
-			
-			Font oldFont = g.getFont();
-			g.setFont(font);
-			
-			int textWidth = g.getFont().getWidth("A");
-			int textHeight = g.getFont().getHeight("A");
-			for(int y = 0; y < charPosition.length; y++){
-				for(int x = 0; x < charPosition[y].length; x++){
-					g.drawString(String.valueOf(charPosition[y][x]), getX() + x * textWidth, getY() + y * textHeight);
-					//System.out.print(charPosition[y][x]);
+				
+				int offset = revalidateCharacters();
+				if(offset != 0){
+					resizeCanvas(offset);
 				}
-				//System.out.println();
+				
+				Rectangle oldClip = g.getWorldClip();
+				g.setWorldClip(getX() - 1, getY() - 1, getWidth() + 1, getHeight() + 1);
+				
+				int cposX = g.getFont().getWidth("A") * posX;
+				int cposY = g.getFont().getHeight("A") * posY;
+				int ty = 0;
+				
+				if(cposY > getHeight()){
+					ty = (int) getHeight() - cposY - g.getFont().getHeight("A");
+				}
+				
+				g.translate(0, ty);
+				g.setColor(IUserInterface.DEFAULT_TEXT);
+				
+				Font oldFont = g.getFont();
+				g.setFont(font);
+				
+				int textWidth = g.getFont().getWidth("A");
+				int textHeight = g.getFont().getHeight("A");
+				for(int y = 0; y < charPosition.length; y++){
+					for(int x = 0; x < charPosition[y].length; x++){
+						g.drawString(String.valueOf(charPosition[y][x]), getX() + x * textWidth, getY() + y * textHeight);
+						//System.out.print(charPosition[y][x]);
+					}
+					//System.out.println();
+				}
+				
+				if(isKeyFocused() && isEditable){
+					g.drawString("|", getX() + cposX - (g.getFont().getWidth("A") / 2), getY() + cposY);
+				}
+				
+				g.setFont(oldFont);
+				
+				g.translate(0, -ty);
+				g.setWorldClip(oldClip);
 			}
-			
-			if(isKeyFocused() && isEditable){
-				g.drawString("|", getX() + cposX - (g.getFont().getWidth("A") / 2), getY() + cposY);
-			}
-			
-			g.setFont(oldFont);
-			
-			g.translate(0, -ty);
-			g.setWorldClip(oldClip);
 		}
 	}
 	

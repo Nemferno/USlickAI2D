@@ -24,29 +24,31 @@ public class Container extends BasicUserInterface {
 	}
 	
 	public void render(Graphics g){
-		g.setColor(DEFAULT_BACKGROUND);
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
-		g.setColor(DEFAULT_BORDER);
-		g.drawRect(getX(), getY(), getWidth(), getHeight());
-		
-		Rectangle oldClip = g.getWorldClip();
-		g.setWorldClip(getX(), getY(), getWidth(), getHeight());
-		
-		float ty = (contentHeight - getHeight()) * (vScroller != null ? vScroller.getValue() : 0);
-		float tx = (contentWidth - getWidth()) * (hScroller != null ? hScroller.getValue() : 0);
-		g.translate(-tx, -ty);
-		if(content != null){
-			content.render(g);
-		}
-		g.translate(tx, ty);
-		g.setWorldClip(oldClip);
-		
-		if(vScroller != null){
-			vScroller.render(g);
-		}
-		
-		if(hScroller != null){
-			hScroller.render(g);
+		if(isVisible()){
+			g.setColor(DEFAULT_BACKGROUND);
+			g.fillRect(getX(), getY(), getWidth(), getHeight());
+			g.setColor(DEFAULT_BORDER);
+			g.drawRect(getX(), getY(), getWidth(), getHeight());
+			
+			Rectangle oldClip = g.getWorldClip();
+			g.setWorldClip(getX(), getY(), getWidth(), getHeight());
+			
+			float ty = (contentHeight - getHeight()) * (vScroller != null ? vScroller.getValue() : 0);
+			float tx = (contentWidth - getWidth()) * (hScroller != null ? hScroller.getValue() : 0);
+			g.translate(-tx, -ty);
+			if(content != null){
+				content.render(g);
+			}
+			g.translate(tx, ty);
+			g.setWorldClip(oldClip);
+			
+			if(vScroller != null){
+				vScroller.render(g);
+			}
+			
+			if(hScroller != null){
+				hScroller.render(g);
+			}
 		}
 	}
 	

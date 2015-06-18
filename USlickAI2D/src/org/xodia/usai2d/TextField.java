@@ -54,8 +54,8 @@ public class TextField extends BasicUserInterface{
 	
 	public void keyPressed(int key, char c) {
 		super.keyPressed(key, c);
-
-		if(isEditable){
+		
+		if(isEditable && !isDisabled() && isVisible()){
 			if(key != -1){
 				if(key == Input.KEY_V && (container.getInput().isKeyDown(Input.KEY_LCONTROL) || container.getInput().isKeyDown(Input.KEY_RCONTROL))){
 					paste();
@@ -125,52 +125,53 @@ public class TextField extends BasicUserInterface{
 	public void render(Graphics g) {
 		super.render(g);
 		
-		if(lastKey != -1){
-			if(container.getInput().isKeyDown(lastKey)){
-				if(repeatTimer < System.currentTimeMillis()){
-					repeatTimer = System.currentTimeMillis() + KEY_REPEAT_INTERVAL;
-					keyPressed(lastKey, lastChar);
+		if(isVisible()){
+			if(lastKey != -1){
+				if(container.getInput().isKeyDown(lastKey)){
+					if(repeatTimer < System.currentTimeMillis()){
+						repeatTimer = System.currentTimeMillis() + KEY_REPEAT_INTERVAL;
+						keyPressed(lastKey, lastChar);
+					}
+				}else{
+					lastKey = -1;
 				}
-			}else{
-				lastKey = -1;
 			}
-		}
-		
-		g.setColor(DEFAULT_TEXT);
-		Rectangle oldClip = g.getWorldClip();
-		g.setWorldClip(getX(), getY(), getWidth(), getHeight());
-		StringBuffer temp = new StringBuffer();
-		for(int i = 0; i < text.length(); i++){
-			char c = text.charAt(i);
-			if(!Character.isLetterOrDigit(c)){
-				temp.append("_");
-			}else{
-				temp.append(c);
-			}
-		}
-		
-		//System.out.println(temp.length());
-		int cpos = font.getWidth(temp.substring(0, cPosition));
-		int tx = 0;
-		
-		if(cpos > getWidth()){
-			tx = (int) getWidth() - cpos - font.getWidth("|");
-		}
 			
-		g.translate(tx, 0);
-		
-		Font oldFont = g.getFont();
-		g.setFont(font);
-		g.drawString(getText(), getX() + 1, getY() + 1);
-		
-		if(isKeyFocused() && isEditable)
-			g.drawString("|", getX() + cpos - 5, getY() + 1);
-		g.setFont(oldFont);
-		
-		g.translate(-tx, 0);
-		
-		g.setWorldClip(oldClip);
-		//}
+			g.setColor(DEFAULT_TEXT);
+			Rectangle oldClip = g.getWorldClip();
+			g.setWorldClip(getX(), getY(), getWidth(), getHeight());
+			StringBuffer temp = new StringBuffer();
+			for(int i = 0; i < text.length(); i++){
+				char c = text.charAt(i);
+				if(!Character.isLetterOrDigit(c)){
+					temp.append("_");
+				}else{
+					temp.append(c);
+				}
+			}
+			
+			//System.out.println(temp.length());
+			int cpos = font.getWidth(temp.substring(0, cPosition));
+			int tx = 0;
+			
+			if(cpos > getWidth()){
+				tx = (int) getWidth() - cpos - font.getWidth("|");
+			}
+				
+			g.translate(tx, 0);
+			
+			Font oldFont = g.getFont();
+			g.setFont(font);
+			g.drawString(getText(), getX() + 1, getY() + 1);
+			
+			if(isKeyFocused() && isEditable)
+				g.drawString("|", getX() + cpos - 5, getY() + 1);
+			g.setFont(oldFont);
+			
+			g.translate(-tx, 0);
+			
+			g.setWorldClip(oldClip);
+		}
 	}/*
 	
 	private void wordWrap(Font f){

@@ -11,10 +11,12 @@ public class Handle extends BasicUserInterface {
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.blue);
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
-		g.setColor(DEFAULT_BORDER);
-		g.drawRect(getX(), getY(), getWidth(), getHeight());
+		if(isVisible()){
+			g.setColor(Color.blue);
+			g.fillRect(getX(), getY(), getWidth(), getHeight());
+			g.setColor(DEFAULT_BORDER);
+			g.drawRect(getX(), getY(), getWidth(), getHeight());
+		}
 	}
 
 }
