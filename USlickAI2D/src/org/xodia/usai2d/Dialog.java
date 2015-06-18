@@ -1,6 +1,7 @@
 package org.xodia.usai2d;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -32,18 +33,25 @@ public class Dialog extends BasicUserInterface {
 	private float dragOffsetX;
 	private float dragOffsetY;
 	
+	private String title;
+	
 	private Rectangle draggableBounds;
 	private Rectangle draggedBounds;
 	
 	public Dialog(GameContainer gc, float w, float h){
-		this(gc, w, h, true, false);
+		this(gc, "", w, h);
 	}
 	
-	public Dialog(GameContainer gc, float w, float h, boolean isModal, boolean isDraggable){
+	public Dialog(GameContainer gc, String title, float w, float h){
+		this(gc, title, w, h, true, false);
+	}
+	
+	public Dialog(GameContainer gc, String title, float w, float h, boolean isModal, boolean isDraggable){
 		super(gc, w, h);
 		
 		this.isDraggable = isDraggable;
 		this.isModal = isModal;
+		this.title = title;
 		setPosition(gc.getWidth() / 2 - w / 2, gc.getHeight() / 2 - h / 2);
 		
 		if(isModal){
@@ -52,27 +60,27 @@ public class Dialog extends BasicUserInterface {
 			DialogManager.getInstance().addDialog(this);
 		}
 		
-		if(isDraggable){
+		//if(isDraggable){
 			draggableBounds = new Rectangle(getX(), getY(), w, h * 0.1f);
 			setSize(w, h + h * 0.1f);
 			draggedBounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
-		}
+		//}
 	}
 	
 	public void addChild(IUserInterface ui) {
 		ui.setParent(this);
-		if(isDraggable){
+		//if(isDraggable){
 			ui.setPosition(getX() + ui.getX(), (getY() + draggableBounds.getY()) + ui.getY());
-		}else{
-			ui.setPosition(getX() + ui.getX(), getY() + ui.getY());
-		}
+		//}else{
+			//ui.setPosition(getX() + ui.getX(), getY() + ui.getY());
+		//}
 		children.add(ui);
 		
 		if(getLayout() != null){
-			if(isDraggable)
+			//if(isDraggable)
 				getLayout().validateLayout(getChilds(), getX(), getY() + draggableBounds.getHeight(), getWidth(), getHeight() - draggableBounds.getHeight());
-			else
-				getLayout().validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
+			//else
+				//getLayout().validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
 		}
 	}
 	
@@ -82,10 +90,10 @@ public class Dialog extends BasicUserInterface {
 			child.setParent(null);
 			
 			if(getLayout() != null){
-				if(isDraggable)
+				//if(isDraggable)
 					getLayout().validateLayout(getChilds(), getX(), getY() + draggableBounds.getHeight(), getWidth(), getHeight() - draggableBounds.getHeight());
-				else
-					getLayout().validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
+				//else
+					//getLayout().validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
 			}
 		}
 	}
@@ -95,12 +103,16 @@ public class Dialog extends BasicUserInterface {
 			ui.setParent(null);
 			
 			if(getLayout() != null){
-				if(isDraggable)
+				//if(isDraggable)
 					getLayout().validateLayout(getChilds(), getX(), getY() + draggableBounds.getHeight(), getWidth(), getHeight() - draggableBounds.getHeight());
-				else
-					getLayout().validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
+				//else
+					//getLayout().validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
 			}
 		}
+	}
+	
+	public void setTitle(String title){
+		this.title = title;
 	}
 	
 	public void setFocused(boolean focus){
@@ -114,6 +126,10 @@ public class Dialog extends BasicUserInterface {
 	public void dispose(){
 		if(!isModal())
 			DialogManager.getInstance().removeDialog(this);
+	}
+	
+	public String getTitle(){
+		return title;
 	}
 	
 	public boolean isFocused(){
@@ -135,16 +151,22 @@ public class Dialog extends BasicUserInterface {
 	public void render(Graphics g){
 		super.render(g);
 		
-		if(isDraggable){
+		//if(isDraggable){
 			draggableBounds.setLocation(getX(), getY());
 			g.setColor(DEFAULT_BAR);
 			g.fill(draggableBounds);
+			
+			g.setColor(Color.white);
+			Font oldFont = g.getFont();
+			g.setFont(font);
+			g.drawString(title, getX() + 1, getY() + 1);
+			g.setFont(oldFont);
 			
 			if(isDragged){
 				g.setColor(DEFAULT_DRAG);
 				g.draw(draggedBounds);
 			}
-		}
+		//}
 	}
 	
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) {

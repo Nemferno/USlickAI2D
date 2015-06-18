@@ -63,7 +63,7 @@ class TestStateApp extends StateBasedGame {
 
 		public void init(GameContainer gc, StateBasedGame arg1)
 				throws SlickException {
-			final Dialog dialog = new Dialog(gc, 250, 250, false, false);
+			final Dialog dialog = new Dialog(gc, "Welcome Box", 250, 250, true, false);
 			dialog.setLayout(new BorderLayout());
 			
 			final TextField edit = new TextField(gc, 0, 0, 0, 0);

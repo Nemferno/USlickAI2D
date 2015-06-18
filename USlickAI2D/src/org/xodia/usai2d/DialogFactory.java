@@ -8,12 +8,12 @@ public class DialogFactory {
 
 	private DialogFactory(){}
 	
-	public static Dialog createOKDialog(GameContainer gc, String message){
-		return createOKDialog(gc, message, null);
+	public static Dialog createOKDialog(GameContainer gc, String title, String message){
+		return createOKDialog(gc, title, message, null);
 	}
 	
-	public static Dialog createOKDialog(GameContainer gc, String message, final OnClickListener ok){
-		final Dialog dialog = new Dialog(gc, 250, 250, true, false);
+	public static Dialog createOKDialog(GameContainer gc, String title, String message, final OnClickListener ok){
+		final Dialog dialog = new Dialog(gc, title, 250, 250, true, false);
 		dialog.setLayout(new BorderLayout());
 		
 		Label mLabel = new Label(gc, message, 0, 0, 0, 0);
@@ -32,12 +32,12 @@ public class DialogFactory {
 		return dialog;
 	}
 	
-	public static Dialog createYesNoDialog(GameContainer gc, String message, final OnClickListener yes){
-		return createYesNoDialog(gc, message, yes, null);
+	public static Dialog createYesNoDialog(GameContainer gc, String title, String message, final OnClickListener yes){
+		return createYesNoDialog(gc, title, message, yes, null);
 	}
 	
-	public static Dialog createYesNoDialog(GameContainer gc, String message, final OnClickListener yes, final OnClickListener no){
-		final Dialog dialog = new Dialog(gc, 250, 250, true, false);
+	public static Dialog createYesNoDialog(GameContainer gc, String title, String message, final OnClickListener yes, final OnClickListener no){
+		final Dialog dialog = new Dialog(gc, title, 250, 250, true, false);
 		dialog.setLayout(new BorderLayout());
 		
 		Label mLabel = new Label(gc, message, 0, 0, 0, 0);
