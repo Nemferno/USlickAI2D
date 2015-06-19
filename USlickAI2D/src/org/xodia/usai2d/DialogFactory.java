@@ -29,6 +29,7 @@ public class DialogFactory {
 					ok.onClick(button);
 			}
 		});
+		okB.setTextOption(TextOption.CENTER);
 		dialog.addChild(okB, BorderLayout.Direction.SOUTH);
 		
 		return dialog;
@@ -54,6 +55,7 @@ public class DialogFactory {
 					yes.onClick(button);
 			}
 		});
+		yButton.setTextOption(TextOption.CENTER);
 		dialog.addChild(yButton, BorderLayout.Direction.SOUTH);
 		Button nButton = new Button(gc, "No", 0, 0, 0, 0, new OnClickListener(){
 			public void onClick(int button){
@@ -62,6 +64,7 @@ public class DialogFactory {
 					no.onClick(button);
 			}
 		});
+		nButton.setTextOption(TextOption.CENTER);
 		dialog.addChild(nButton, BorderLayout.Direction.SOUTH);
 		
 		return dialog;
