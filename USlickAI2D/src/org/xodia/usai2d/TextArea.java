@@ -313,12 +313,17 @@ public class TextArea extends BasicUserInterface {
 		this.text.append(text);
 		cpos = this.text.length();
 		
-		posX = posY = 0;
-		// Find the offset!
-		int tempY = (int) (text.length() / (charPosition[0].length - 1));
-		int offset = text.length() - (tempY * (charPosition[0].length - 1));
-		posX = offset;
-		posY = tempY;
+		if(charPosition[0].length - 1 == 0){
+			posX = 0;
+			posY = 0;
+		}else{
+			posX = posY = 0;
+			// Find the offset!
+			int tempY = (int) (text.length() / (charPosition[0].length - 1));
+			int offset = text.length() - (tempY * (charPosition[0].length - 1));
+			posX = offset;
+			posY = tempY;
+		}
 	}
 	
 	public void setEditable(boolean editable){

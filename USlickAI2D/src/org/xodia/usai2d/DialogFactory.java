@@ -16,7 +16,9 @@ public class DialogFactory {
 		final Dialog dialog = new Dialog(gc, title, 250, 250, true, false);
 		dialog.setLayout(new BorderLayout());
 		
-		Label mLabel = new Label(gc, message, 0, 0, 0, 0);
+		TextArea mLabel = new TextArea(gc, 0, 0, dialog.getWidth(), dialog.getHeight());
+		mLabel.setEditable(false);
+		mLabel.setText(message);
 		dialog.addChild(mLabel, BorderLayout.Direction.CENTER);
 		
 		Button okB = new Button(gc, "OK", 0, 0, 100, 100, new OnClickListener() {
@@ -40,7 +42,9 @@ public class DialogFactory {
 		final Dialog dialog = new Dialog(gc, title, 250, 250, true, false);
 		dialog.setLayout(new BorderLayout());
 		
-		Label mLabel = new Label(gc, message, 0, 0, 0, 0);
+		TextArea mLabel = new TextArea(gc, 0, 0, dialog.getWidth(), dialog.getHeight());
+		mLabel.setEditable(false);
+		mLabel.setText(message);
 		dialog.addChild(mLabel, BorderLayout.Direction.CENTER);
 		
 		Button yButton = new Button(gc, "Yes", 0, 0, 0, 0, new OnClickListener(){
