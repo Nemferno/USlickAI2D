@@ -32,6 +32,7 @@ public abstract class BasicUIGame extends BasicGame {
 	
 	public void update(GameContainer gc, int delta)
 		throws SlickException {
+		tManager.update();
 		input(gc.getInput());
 		preUpdate(gc, delta);
 	}

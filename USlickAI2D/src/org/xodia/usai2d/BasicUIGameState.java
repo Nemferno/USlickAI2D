@@ -47,6 +47,7 @@ public abstract class BasicUIGameState extends BasicGameState {
 	
 	public void update(GameContainer gc , StateBasedGame sg, int delta)
 		throws SlickException {
+		tManager.update();
 		input(gc.getInput());
 		preUpdate(gc, delta);
 		StateManager.check(sg);
