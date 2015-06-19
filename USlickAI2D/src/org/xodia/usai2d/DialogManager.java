@@ -50,7 +50,8 @@ public class DialogManager {
 	public void disposeModal(){
 		Dialog d = getFocusedDialog();
 		if(d.isModal()){
-			d.getDialogListener().onExit();
+			if(d.getDialogListener() != null)
+				d.getDialogListener().onExit();
 			isFocused = false;
 			d.setFocused(false);
 			KeyManager.getInstance().remove(d);
@@ -101,7 +102,8 @@ public class DialogManager {
 	public void removeDialog(int index){
 		Dialog d = dialogList.remove(index);
 		if(d.isFocused()){
-			d.getDialogListener().onExit();
+			if(d.getDialogListener() != null)
+				d.getDialogListener().onExit();
 			d.setFocused(false);
 			setFocused(false);
 		}
@@ -111,7 +113,8 @@ public class DialogManager {
 	public void removeDialog(Dialog d){
 		dialogList.remove(d);
 		if(d.isFocused()){
-			d.getDialogListener().onExit();
+			if(d.getDialogListener() != null)
+				d.getDialogListener().onExit();
 			d.setFocused(false);
 			setFocused(false);
 		}
