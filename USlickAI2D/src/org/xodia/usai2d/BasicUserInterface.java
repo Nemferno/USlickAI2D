@@ -105,9 +105,9 @@ public class BasicUserInterface implements IUserInterface {
 	public void setBackgroundImage(Image background){
 		backgroundImage = background;
 		
-		if(background.getWidth() != getWidth() || background.getHeight() != getHeight()){
+/*		if(background.getWidth() != getWidth() || background.getHeight() != getHeight()){
 			backgroundImage = background.getScaledCopy((int) getWidth(), (int) getHeight());
-		}
+		}*/
 	}
 	
 	public void addChild(IUserInterface ui) {
@@ -276,7 +276,7 @@ public class BasicUserInterface implements IUserInterface {
 			}
 				
 			if(backgroundImage != null){
-				backgroundImage.draw(0, 0);
+				backgroundImage.draw(getX(), getY());
 			}else{
 				g.fillRect(getX(), getY(), getWidth(), getHeight());
 				g.setColor(DEFAULT_BORDER);

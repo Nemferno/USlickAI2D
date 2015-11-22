@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.xodia.usai2d.Button.OnClickListener;
 import org.xodia.usai2d.layout.BorderLayout;
+import org.xodia.usai2d.layout.VerticalLayout;
 
 public class TestApp extends BasicUIGame{
 
@@ -28,18 +29,27 @@ public class TestApp extends BasicUIGame{
 	}
 
 	public void init(GameContainer gc) throws SlickException {
-		SelectionList list = new SelectionList(gc, 100, 100, 100, 25, 8);
+		/*SelectionList list = new SelectionList(gc, 100, 100, 100, 25, 8);
 		list.addDivider("DIVIDER");
 		list.addItem("Hello");
 		list.addItem("HELLO");
 		list.addDivider("Divider 2");
 		list.addItem("HELLO");
 		list.addItem("HELLO");
-		addUI(list);
+		addUI(list);*/
+		
+		final Button b = new Button(gc, 100, 100, 15, 15);
+		b.setToolTip("HLEJRKLEJWKLFJEWLKRJLWJRLWJRLWJRLWJLRJLWJRLWJRLJWLRJWLJRLWJRLWJRLJWLRJWLJLRJWLRJLWJR");
+		b.setOnClickListener(new OnClickListener() {
+			public void onClick(int button) {
+				b.setToolTip("LKDJFLKJSDF");
+			}
+		});
+		addUI(b);
 	}
 
 	public static void main(String[] args) throws SlickException{
-		AppGameContainer app = new AppGameContainer(new TestStateApp("Test UI Game"), 800, 600, false);
+		AppGameContainer app = new AppGameContainer(new TestApp("Test UI Game"), 800, 600, false);
 		app.start();
 	}
 	
@@ -63,29 +73,7 @@ class TestStateApp extends StateBasedGame {
 
 		public void init(GameContainer gc, StateBasedGame arg1)
 				throws SlickException {
-			final Dialog dialog = new Dialog(gc, "Welcome Box", 250, 250, true, false);
-			dialog.setLayout(new BorderLayout());
-			
-			final TextField edit = new TextField(gc, 0, 0, 0, 0);
-			dialog.addChild(edit, BorderLayout.Direction.CENTER);
-			
-			Label label = new Label(gc, "Enter new username:", 0, 0, 0, 0);
-			dialog.addChild(label, BorderLayout.Direction.NORTH);
-			
-			Button button = new Button(gc, "Enter!", 0, 0, 0, 0, new OnClickListener() {
-				public void onClick(int button) {
-					if(!edit.getText().trim().equals("")){
-						if(edit.getText().contains(" ")){
-							dialog.dispose();
-						}else{
-							dialog.dispose();
-						}
-					}else{
-						dialog.dispose();
-					}
-				}
-			});
-			dialog.addChild(button, BorderLayout.Direction.SOUTH);
+			DialogFactory.createOKDialog(gc, "ERROR!", "YOU DO NOT HAVE ENOUGH PLATINUMS!");
 		}
 
 		public void preUpdate(GameContainer gc, int delta)

@@ -29,14 +29,18 @@ public class DialogManager {
 			if(!d.isModal()){
 				throw new Exception("Dialog MUST be a modal!");
 			}else{
+				d.setVisible(false);
 				modalList.add(d);
 				KeyManager.getInstance().add(d);
 				if(!isFocused){
+					d.setVisible(true);
 					isFocused = true;
 					d.setFocused(true);
 				}else{
+					getFocusedDialog().setVisible(false);
 					getFocusedDialog().setFocused(false);
 					d.setFocused(true);
+					d.setVisible(true);
 				}
 			}
 		}catch(Exception e){
@@ -50,6 +54,7 @@ public class DialogManager {
 	public void disposeModal(){
 		Dialog d = getFocusedDialog();
 		if(d.isModal()){
+			d.setVisible(false);
 			if(d.getDialogListener() != null)
 				d.getDialogListener().onExit();
 			isFocused = false;
@@ -176,6 +181,7 @@ public class DialogManager {
 	private void revalidateFocus(){
 		if(modalList.size() > 0){
 			modalList.get(modalList.size() - 1).setFocused(true);
+			modalList.get(modalList.size() - 1).setVisible(true);
 			isFocused = true;
 		}
 	}

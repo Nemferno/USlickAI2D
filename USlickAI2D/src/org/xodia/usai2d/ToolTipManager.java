@@ -37,8 +37,17 @@ public class ToolTipManager {
 		if(visibleTool != null){
 			if(!toolList.containsValue(visibleTool)){
 				visibleTool.setVisible(false);
+				ToolTip old = visibleTool;
 				visibleTool = toolList.get(parent);
 				visibleTool.setVisible(true);
+				visibleTool.setPosition(old.getX(), old.getY());
+				old = null;
+			}
+			
+			if(!parent.isVisible()){
+				visibleTool.setVisible(false);
+				visibleTool = null;
+				parent = null;
 			}
 		}
 	}
