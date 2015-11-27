@@ -131,6 +131,10 @@ public interface IUserInterface {
 	 * Is visible?
 	 */
 	boolean isVisible();
+	
+	boolean isParent();
+	boolean hasParent();
+	
 	/**
 	 * Returns the parent of the user interface
 	 * @return
@@ -173,6 +177,12 @@ public interface IUserInterface {
 	 * height
 	 */
 	float getHeight();
+	
+	float getOffsetX();
+	float getOffsetY();
+	
+	void validateLayout();
+	
 	/**
 	 * Different from the revalidate(float, float, float, float), a previous version of the method.
 	 * revalidate(float, float, float, float) is split into two. One is for the change in size (@see {@link IUserInterface#revalidateSize(float, float)}) and
@@ -198,7 +208,10 @@ public interface IUserInterface {
 	 * @param oldH
 	 * the parent's old height
 	 */
-	void revalidatePosition(float oldX, float oldY);
+	void revalidatePosition(float percentW, float percentH);
+	
+	void validatePosition();
+	
 	/**
 	 * New functionality from the old one. This update is for when the user interface requires
 	 * to check a flag or a condition. The old library had to use events and listeners to do it

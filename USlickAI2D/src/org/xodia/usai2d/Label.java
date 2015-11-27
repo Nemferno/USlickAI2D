@@ -4,23 +4,27 @@ import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-public class Label extends BasicUserInterface {
+public class Label extends BasicUserInterface 
+{
 	
 	private String text;
 	private TextOption option;
 	
-	public Label(GameContainer gc, float x, float y, float w, float h){
+	public Label(GameContainer gc, float x, float y, float w, float h)
+	{
 		this(gc, "", x, y, w, h);
 	}
 	
-	public Label(GameContainer gc, String text, float x, float y, float w, float h){
+	public Label(GameContainer gc, String text, float x, float y, float w, float h)
+	{
 		super(gc, x, y, w, h);
 		
 		this.text = text;
 		this.option = TextOption.LEFT;
 	}
 	
-	public void render(Graphics g){
+	public void render(Graphics g)
+	{
 		super.render(g);
 		
 		g.setColor(DEFAULT_TEXT);

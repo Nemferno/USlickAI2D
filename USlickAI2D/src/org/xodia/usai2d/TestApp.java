@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.xodia.usai2d.Button.OnClickListener;
 import org.xodia.usai2d.layout.BorderLayout;
+import org.xodia.usai2d.layout.GridLayout;
 import org.xodia.usai2d.layout.VerticalLayout;
 
 public class TestApp extends BasicUIGame{
@@ -29,23 +30,12 @@ public class TestApp extends BasicUIGame{
 	}
 
 	public void init(GameContainer gc) throws SlickException {
-		/*SelectionList list = new SelectionList(gc, 100, 100, 100, 25, 8);
-		list.addDivider("DIVIDER");
-		list.addItem("Hello");
-		list.addItem("HELLO");
-		list.addDivider("Divider 2");
-		list.addItem("HELLO");
-		list.addItem("HELLO");
-		addUI(list);*/
+		final Panel p = new Panel(gc, 500, 300);
+		p.setLayout(new GridLayout(3, 1));
+		p.addChild(new Panel(gc, 100, 10));
+		p.addChild(new Panel(gc, 100, 10));
 		
-		final Button b = new Button(gc, 100, 100, 15, 15);
-		b.setToolTip("HLEJRKLEJWKLFJEWLKRJLWJRLWJRLWJRLWJLRJLWJRLWJRLJWLRJWLJRLWJRLWJRLJWLRJWLJLRJWLRJLWJR");
-		b.setOnClickListener(new OnClickListener() {
-			public void onClick(int button) {
-				b.setToolTip("LKDJFLKJSDF");
-			}
-		});
-		addUI(b);
+		addUI(p);
 	}
 
 	public static void main(String[] args) throws SlickException{

@@ -1,11 +1,15 @@
 package org.xodia.usai2d;
 
+import java.util.Iterator;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
+import org.xodia.usai2d.layout.BorderLayout;
+import org.xodia.usai2d.layout.BorderLayout.Direction;
 
 /**
  * 
@@ -76,44 +80,86 @@ public class Dialog extends BasicUserInterface {
 	public void addChild(IUserInterface ui) {
 		ui.setParent(this);
 		//if(isDraggable){
-			ui.setPosition(getX() + ui.getX(), (getY() + draggableBounds.getY()) + ui.getY());
+		ui.setPosition(getX() + ui.getX(), (getY() + draggableBounds.getHeight()) + ui.getY());
 		//}else{
 			//ui.setPosition(getX() + ui.getX(), getY() + ui.getY());
 		//}
 		children.add(ui);
-		
-		if(getLayout() != null){
+
+		validateLayout();
 			//if(isDraggable)
-				getLayout().validateLayout(getChilds(), getX(), getY() + draggableBounds.getHeight(), getWidth(), getHeight() - draggableBounds.getHeight());
 			//else
 				//getLayout().validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
+	}
+	
+	public void addChild(IUserInterface ui, Direction d)
+	{
+		if(getLayout() instanceof BorderLayout)
+			((BorderLayout) getLayout()).addBorder(ui, d);
+		
+		addChild(ui);
+	}
+	
+	@Override
+	public void validateLayout() 
+	{
+		if(layout != null)
+			layout.validateLayout(getChilds(), getX(), getY() + draggableBounds.getHeight(), getWidth(), getHeight() - draggableBounds.getHeight());
+	}
+	
+	@Override
+	public void revalidatePosition(float percentW, float percentH) 
+	{
+		Iterator<IUserInterface> list = getChilds();
+		while(list.hasNext())
+		{
+			IUserInterface child = list.next();
+			float newX = child.getX() + (child.getX() * percentW);
+			float newY = child.getY() + (child.getY() * percentH);
+			child.setPosition(getX() + newX, (getY() + draggableBounds.getHeight()) + newY);
 		}
 	}
 	
-	public void removeChild(int index) {
+	@Override
+	public void validatePosition() 
+	{
+		Iterator<IUserInterface> list = getChilds();
+		while(list.hasNext())
+		{
+			IUserInterface child = list.next();
+			float cX = child.getX();
+			float cY = child.getY();
+			float correctX = getX() + child.getOffsetX();
+			float correctY = (getY() + draggableBounds.getHeight()) + child.getOffsetY();
+			if(cX != correctX || cY != correctY)
+			{
+				child.setPosition(correctX, correctY);
+			}
+		}
+	}
+	
+	public void removeChild(int index) 
+	{
 		IUserInterface child = children.remove(index);
 		if(child != null){
 			child.setParent(null);
 			
-			if(getLayout() != null){
 				//if(isDraggable)
-					getLayout().validateLayout(getChilds(), getX(), getY() + draggableBounds.getHeight(), getWidth(), getHeight() - draggableBounds.getHeight());
+			validateLayout();
 				//else
 					//getLayout().validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
-			}
 		}
 	}
 	
-	public void removeChild(IUserInterface ui) {
+	public void removeChild(IUserInterface ui) 
+	{
 		if(children.remove(ui)){
 			ui.setParent(null);
 			
-			if(getLayout() != null){
 				//if(isDraggable)
-					getLayout().validateLayout(getChilds(), getX(), getY() + draggableBounds.getHeight(), getWidth(), getHeight() - draggableBounds.getHeight());
+			validateLayout();
 				//else
 					//getLayout().validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
-			}
 		}
 	}
 	
@@ -136,6 +182,8 @@ public class Dialog extends BasicUserInterface {
 	public void dispose(){
 		if(!isModal())
 			DialogManager.getInstance().removeDialog(this);
+		else
+			DialogManager.getInstance().disposeModal();
 	}
 	
 	public DialogListener getDialogListener(){

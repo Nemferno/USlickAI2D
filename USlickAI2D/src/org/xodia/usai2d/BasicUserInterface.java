@@ -13,71 +13,87 @@ import org.xodia.usai2d.layout.BorderLayout;
 import org.xodia.usai2d.layout.BorderLayout.Direction;
 import org.xodia.usai2d.layout.ILayout;
 
-public class BasicUserInterface implements IUserInterface {
+public class BasicUserInterface implements IUserInterface 
+{
 
 	protected List<IUserInterface> children;
 	protected GameContainer container;
 	private IUserInterface parent;
-	private ILayout layout;
+	protected ILayout layout;
 	
 	protected Image backgroundImage;
 	protected Color backgroundColor;
 	protected Font font;
 	
 	private float x, y;
+	private float offsetX, offsetY;
 	private float width, height;
 	private boolean isKeyFocused;
 	private boolean isDisabled;
 	private boolean isVisible;
 	
-	public BasicUserInterface(GameContainer gc, float w, float h){
+	public BasicUserInterface(GameContainer gc)
+	{
+		this(gc, 0, 0, 0, 0);
+	}
+	
+	public BasicUserInterface(GameContainer gc, float w, float h)
+	{
 		this(gc, 0, 0, w, h);
 	}
 	
-	public BasicUserInterface(GameContainer gc, float x, float y, float w, float h){
+	public BasicUserInterface(GameContainer gc, float x, float y, float w, float h)
+	{
 		container = gc;
 		font = gc.getDefaultFont();
 		children = new CopyOnWriteArrayList<IUserInterface>();
+		offsetX = x;
+		offsetY = y;
 		setPosition(x,y);
 		setSize(w, h);
 		setVisible(true);
 		setDisabled(false);
 	}
 	
-	public void setPosition(float x, float y) {
-		float oldX = getX();
-		float oldY = getY();
+	public void setPosition(float x, float y) 
+	{
 		this.x = x;
 		this.y = y;
 		
-		revalidatePosition(oldX, oldY);
+		validatePosition();
 	}
 
-	public void setSize(float w, float h) {
+	public void setSize(float w, float h) 
+	{
 		float oldW = getWidth();
 		float oldH = getHeight();
+		
 		this.width = w;
 		this.height = h;
 		
 		revalidateSize(oldW, oldH);
 	}
 	
-	public void setParent(IUserInterface parent) {
+	public void setParent(IUserInterface parent) 
+	{
 		this.parent = parent;
 	}
 	
-	public void setLayout(ILayout layout){
-		this.layout = layout;
+	public void setLayout(ILayout layout)
+	{
+		this.layout = layout;	
 	}
 	
-	public void setColorBackground(Color color){
+	public void setColorBackground(Color color)
+	{
 		backgroundColor = color;
 	}
 	
 	/**
 	 * All of the children must be disabled if the parent is disabled...
 	 */
-	public void setDisabled(boolean disable) {
+	public void setDisabled(boolean disable) 
+	{
 		this.isDisabled = disable;
 		
 		Iterator<IUserInterface> childs = children.iterator();
@@ -86,7 +102,8 @@ public class BasicUserInterface implements IUserInterface {
 		}
 	}
 
-	public void setVisible(boolean visible) {
+	public void setVisible(boolean visible) 
+	{
 		this.isVisible = visible;
 		
 		for(IUserInterface ui : children){
@@ -94,7 +111,8 @@ public class BasicUserInterface implements IUserInterface {
 		}
 	}
 
-	public void setKeyFocused(boolean focus) {
+	public void setKeyFocused(boolean focus) 
+	{
 		this.isKeyFocused = focus;
 		
 		for(IUserInterface ui : children){
@@ -102,7 +120,8 @@ public class BasicUserInterface implements IUserInterface {
 		}
 	}
 	
-	public void setBackgroundImage(Image background){
+	public void setBackgroundImage(Image background)
+	{
 		backgroundImage = background;
 		
 /*		if(background.getWidth() != getWidth() || background.getHeight() != getHeight()){
@@ -110,7 +129,8 @@ public class BasicUserInterface implements IUserInterface {
 		}*/
 	}
 	
-	public void addChild(IUserInterface ui) {
+	public void addChild(IUserInterface ui) 
+	{
 		ui.setParent(this);
 		ui.setPosition(getX() + ui.getX(), getY() + ui.getY());
 		children.add(ui);
@@ -119,103 +139,146 @@ public class BasicUserInterface implements IUserInterface {
 			layout.validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
 	}
 	
-	public void addChild(IUserInterface ui, Direction d){
+	public void addChild(IUserInterface ui, Direction d)
+	{
 		if(layout instanceof BorderLayout)
 			((BorderLayout) layout).addBorder(ui, d);
 		
 		addChild(ui);
 	}
 
-	public void removeChild(int index) {
+	public void removeChild(int index) 
+	{
 		IUserInterface child = children.remove(index);
 		if(child != null){
 			child.setParent(null);
 			
-			if(layout != null)
-				layout.validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
+			validateLayout();
 		}
 	}
 
-	public void removeChild(IUserInterface ui) {
+	public void removeChild(IUserInterface ui) 
+	{
 		if(children.remove(ui)){
 			ui.setParent(null);
 			
-			if(layout != null)
-				layout.validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
+			validateLayout();
 		}
 	}
 	
-	public void clearChildren(){
+	public void clearChildren()
+	{
 		children.clear();
 	}
 
-	public Iterator<IUserInterface> getChilds() {
+	public Iterator<IUserInterface> getChilds() 
+	{
 		return children.iterator();
 	}
 	
-	public IUserInterface getParent(){
+	public IUserInterface getParent()
+	{
 		return parent;
 	}
 	
-	public ILayout getLayout(){
+	public ILayout getLayout()
+	{
 		return layout;
 	}
 
-	public Color getBackgroundColor(){
+	public Color getBackgroundColor()
+	{
 		return backgroundColor;
 	}
 	
-	public boolean isKeyFocused() {
+	public boolean isKeyFocused() 
+	{
 		return isKeyFocused;
 	}
 	
-	public boolean isDisabled(){
+	public boolean isDisabled()
+	{
 		return isDisabled;
 	}
 	
-	public boolean isVisible(){
+	public boolean isVisible()
+	{
 		return isVisible;
 	}
+	
+	public boolean isParent()
+	{
+		return parent == null;
+	}
+	
+	public boolean hasParent()
+	{
+		return parent != null;
+	}
 
-	public float getX() {
+	public float getX() 
+	{
 		return x;
 	}
 
-	public float getY() {
+	public float getY() 
+	{
 		return y;
 	}
 
-	public float getWidth() {
+	public float getWidth() 
+	{
 		return width;
 	}
 
-	public float getHeight() {
+	public float getHeight() 
+	{
 		return height;
 	}
 	
-	public GameContainer getContainer(){
+	public float getOffsetX()
+	{
+		return offsetX;
+	}
+	
+	public float getOffsetY()
+	{
+		return offsetY;
+	}
+	
+	public GameContainer getContainer()
+	{
 		return container;
+	}
+	
+	public void validateLayout()
+	{
+		if(layout != null)
+			layout.validateLayout(getChilds(), getX(), getY(), getWidth(), getHeight());
 	}
 	
 	/**
 	 * You can view more info about this method at {@link IUserInterface#revalidateSize(float, float)}
 	 * You must use this method ONLY when you set the size of the parent.
-	 * 
-	 * After noting the effects of resizing 
 	 */
-	public void revalidateSize(float oldW, float oldH) {
+	public void revalidateSize(float oldW, float oldH) 
+	{
 		// We have to get the percentage of shrinkage or enlargement
-		float percentW = (getWidth() - oldW) / oldW;
-		float percentH = (getHeight() - oldH) / oldH;
+		// > 0 means shrunk & < 0 means enlargement
+		float percentW = ((getWidth() - oldW) / oldW);
+		float percentH = ((getHeight() - oldH) / oldH);
 		Iterator<IUserInterface> list = getChilds();
-		while(list.hasNext()){
+		while(list.hasNext())
+		{
 			IUserInterface child = list.next();
 			float oldCW = child.getWidth(), oldCH = child.getHeight();
 			// We have to set the new size for the child
-			child.setSize(oldCW + (oldCW * percentW), oldCH + (oldCH * percentH));
+			float newCW = oldCW + (oldCW * percentW);
+			float newCH = oldCH + (oldCH * percentH);
+			child.setSize(newCW, newCH);
 		}
 		
-		validatePosition(oldW, oldH);
+		revalidatePosition(percentW, percentH);
 	}
 	
 	/**
@@ -228,13 +291,15 @@ public class BasicUserInterface implements IUserInterface {
 	 * @param oldH
 	 * Parent's old height
 	 */
-	private void validatePosition(float oldW, float oldH){
+	public void revalidatePosition(float percentW, float percentH)
+	{
 		Iterator<IUserInterface> list = getChilds();
-		while(list.hasNext()){
+		while(list.hasNext())
+		{
 			IUserInterface child = list.next();
-			float newOffsetX = (getWidth() * ((oldW + getX()) - child.getX()) / oldW);
-			float newOffsetY = (getHeight() * ((oldH + getY()) - child.getY()) / oldH);
-			child.setPosition(getX() + (getWidth() - newOffsetX), getY() + (getHeight() - newOffsetY));
+			float newX = child.getX() + (child.getX() * percentW);
+			float newY = child.getY() + (child.getY() * percentH);
+			child.setPosition(getX() + newX, getY() + newY);
 		}
 	}
 
@@ -242,31 +307,34 @@ public class BasicUserInterface implements IUserInterface {
 	 * You can view more info about this method at {@link IUserInterface#revalidatePosition(float, float)}
 	 * You must use this method ONLY when you set the position of the parent
 	 */
-	public void revalidatePosition(float oldX, float oldY) {
+	public void validatePosition() 
+	{
 		// We have to retrieve the child's x & y offset
 		Iterator<IUserInterface> list = getChilds();
-		while(list.hasNext()){
+		while(list.hasNext())
+		{
 			IUserInterface child = list.next();
-			//float oldCX = child.getX(), oldCY = child.getY();
-			float offsetX = child.getX() - oldX;
-			float offsetY = child.getY() - oldY;
-			//if(child instanceof Panel)
-			//System.out.println("Old X: " + oldCX + ", Old Y: " + oldCY + ", Offsets: " + "(" + offsetX + ", " + offsetY + "), New: " + "(" + (getX() + offsetX) + ", " + (getY() + offsetY) + ")");
-			// We set the child's new position according to the new position of the parent
-			/*if(offsetX == oldCX || offsetY == oldCY)
-				child.setPosition(offsetX, offsetY);
-			else*/
-				child.setPosition(getX() + offsetX, getY() + offsetY);
+			float cX = child.getX();
+			float cY = child.getY();
 			
-			//child.revalidatePosition(oldCX, oldCY);
+			// Now we check if the child is in its correct position
+			float correctX = getX() + child.getOffsetX();
+			float correctY = getY() + child.getOffsetY();
+			// If either axis are not in the correct position, then set it correctly
+			if(cX != correctX || cY != correctY)
+			{
+				child.setPosition(correctX, correctY);
+			}
 		}
 	}
 
-	public void update() {
+	public void update() 
+	{
 		
 	}
 
-	public void render(Graphics g) {
+	public void render(Graphics g) 
+	{
 		if(isVisible){
 			if(!isDisabled){
 				if(backgroundColor == null)
@@ -298,7 +366,8 @@ public class BasicUserInterface implements IUserInterface {
 		}
 	}
 
-	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+	public void mouseMoved(int oldx, int oldy, int newx, int newy) 
+	{
 		if(!isDisabled && isVisible){
 			Iterator<IUserInterface> it = children.iterator();
 			while(it.hasNext()){
@@ -313,7 +382,8 @@ public class BasicUserInterface implements IUserInterface {
 		}
 	}
 
-	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
+	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
+	{
 		if(!isDisabled && isVisible){
 			Iterator<IUserInterface> it = children.iterator();
 			while(it.hasNext()){
@@ -328,7 +398,8 @@ public class BasicUserInterface implements IUserInterface {
 		}
 	}
 
-	public void mousePressed(int button, int x, int y) {
+	public void mousePressed(int button, int x, int y) 
+	{
 		if(!isDisabled && isVisible){
 			Iterator<IUserInterface> it = children.iterator();
 			while(it.hasNext()){
@@ -343,7 +414,8 @@ public class BasicUserInterface implements IUserInterface {
 		}
 	}
 
-	public void mouseReleased(int button, int x, int y) {
+	public void mouseReleased(int button, int x, int y) 
+	{
 		if(!isDisabled && isVisible){
 			Iterator<IUserInterface> it = children.iterator();
 			while(it.hasNext()){
@@ -358,7 +430,8 @@ public class BasicUserInterface implements IUserInterface {
 		}
 	}
 	
-	public void keyPressed(int key, char c) {
+	public void keyPressed(int key, char c) 
+	{
 		if(!isDisabled && isVisible && isKeyFocused){
 			Iterator<IUserInterface> it = children.iterator();
 			while(it.hasNext()){
@@ -368,7 +441,8 @@ public class BasicUserInterface implements IUserInterface {
 		}
 	}
 
-	public void keyReleased(int key, char c) {
+	public void keyReleased(int key, char c) 
+	{
 		if(!isDisabled && isVisible && isKeyFocused){
 			Iterator<IUserInterface> it = children.iterator();
 			while(it.hasNext()){
@@ -378,8 +452,9 @@ public class BasicUserInterface implements IUserInterface {
 		}
 	}
 
-	public String toString() {
-		return "{" + getX() + ", " + getY() + ", " + getWidth() + ", " + getHeight() + "}";
+	public String toString() 
+	{
+		return "[" + getX() + ", " + getY() + ", " + getWidth() + ", " + getHeight() + "]";
 	}
 	
 }
